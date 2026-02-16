@@ -1,0 +1,225 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e37a95e5debfd945bc6e79033e5a037, type: 3}
+  m_Name: LevelsData 2
+  m_EditorClassIdentifier: 
+  levels:
+  - visualTimer: 0.2
+    audioTimer: 0.6
+    timeBetweenStimulus: 2
+    otherTime: 1.6
+    states:
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    levelDescription: WarmUp1
+    useDifferentSpawnTime: 1
+    useTutorial: 1
+    isTraining: 0
+    hasSecondTutorial: 1
+    tutorialClip: {fileID: 8300000, guid: 4d4150d79ec3e954ea06b7ab1737f3a7, type: 3}
+    miniTutorialClip: {fileID: 0}
+    tutorialClip2: {fileID: 8300000, guid: 4a32cd0603dd26847a2020aae598d045, type: 3}
+    tutorialImage: {fileID: 21300000, guid: 01c91ac1de836b14c85d58aec3a6b050, type: 3}
+    tutorialImage2: {fileID: 21300000, guid: 435bfb29b1edd594197240dee32ba7e3, type: 3}
+    miniTutorialImage: {fileID: 0}
+    bubbleImage: {fileID: 0}
+    useTank: 0
+  - visualTimer: 0.2
+    audioTimer: 0.6
+    timeBetweenStimulus: 2
+    otherTime: 1.6
+    states:
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    levelDescription: WarmUp2
+    useDifferentSpawnTime: 1
+    useTutorial: 1
+    isTraining: 0
+    hasSecondTutorial: 0
+    tutorialClip: {fileID: 8300000, guid: 89f0be9a05a2c5b4a8db90c0d900e782, type: 3}
+    miniTutorialClip: {fileID: 0}
+    tutorialClip2: {fileID: 8300000, guid: ec2eff0d6f9274e42b860488ab20d362, type: 3}
+    tutorialImage: {fileID: 21300000, guid: 7daa5fdf2ff655b48933eb79ff9215b9, type: 3}
+    tutorialImage2: {fileID: 21300000, guid: 435bfb29b1edd594197240dee32ba7e3, type: 3}
+    miniTutorialImage: {fileID: 0}
+    bubbleImage: {fileID: 0}
+    useTank: 0
+  - visualTimer: 0.2
+    audioTimer: 0.6
+    timeBetweenStimulus: 2
+    otherTime: 1.6
+    states:
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 0
+      SV: 1
+      SA: 0
+    - FV: 0
+      FA: 0
+      SV: 0
+      SA: 1
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 0
+      SV: 1
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    levelDescription: Training
+    useDifferentSpawnTime: 1
+    useTutorial: 1
+    isTraining: 1
+    hasSecondTutorial: 0
+    tutorialClip: {fileID: 8300000, guid: 109d9a6b83215d64cbb9dd92038a797f, type: 3}
+    miniTutorialClip: {fileID: 8300000, guid: 8d27576c247b4494e9b3370a172fb9a4, type: 3}
+    tutorialClip2: {fileID: 8300000, guid: b69cee2e83f68cb46a239cbb5cb2b2a1, type: 3}
+    tutorialImage: {fileID: 21300000, guid: ea463e68d9b71a543b518a190896aa90, type: 3}
+    tutorialImage2: {fileID: 21300000, guid: b85d724a1b08c244d851affc3521f330, type: 3}
+    miniTutorialImage: {fileID: 21300000, guid: ce20512304b2d804d935e0beea5bba75,
+      type: 3}
+    bubbleImage: {fileID: 0}
+    useTank: 0
+  - visualTimer: 0.2
+    audioTimer: 0.6
+    timeBetweenStimulus: 2
+    otherTime: 1.6
+    states:
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 1
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 0
+      SV: 1
+      SA: 0
+    - FV: 0
+      FA: 0
+      SV: 0
+      SA: 1
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 0
+      FA: 0
+      SV: 1
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    levelDescription: Training
+    useDifferentSpawnTime: 1
+    useTutorial: 0
+    isTraining: 0
+    hasSecondTutorial: 0
+    tutorialClip: {fileID: 8300000, guid: 109d9a6b83215d64cbb9dd92038a797f, type: 3}
+    miniTutorialClip: {fileID: 8300000, guid: 8d27576c247b4494e9b3370a172fb9a4, type: 3}
+    tutorialClip2: {fileID: 8300000, guid: b69cee2e83f68cb46a239cbb5cb2b2a1, type: 3}
+    tutorialImage: {fileID: 21300000, guid: ea463e68d9b71a543b518a190896aa90, type: 3}
+    tutorialImage2: {fileID: 21300000, guid: b85d724a1b08c244d851affc3521f330, type: 3}
+    miniTutorialImage: {fileID: 21300000, guid: ce20512304b2d804d935e0beea5bba75,
+      type: 3}
+    bubbleImage: {fileID: 0}
+    useTank: 1

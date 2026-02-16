@@ -1,0 +1,8 @@
+Type,Mode,StartingTime,ReactionTime,Response,Trial,upperLeft,middleLeft,lowerLeft,upperMiddle,middleMiddle,lowerMiddle,upperRight,middleRight,lowerRight,starTaps
+Training  ,  Fish Visual  ,  1.6  ,  0.3462382  ,  Hit  ,  1  ,  0  ,  0  ,  0  ,  0  ,  1  ,  0  ,  0  ,  0  ,  0  ,  0
+Training  ,  Fish Auditory  ,  2  ,  0.7423002  ,  Hit  ,  2  ,  0  ,  0  ,  0  ,  0  ,  1  ,  0  ,  0  ,  0  ,  0  ,  0
+Training  ,  Shark Visual  ,  1.6  ,  2.003133  ,  correct reject  ,  3  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0
+Training  ,  Shark Auditory  ,  2  ,  1.605905  ,  correct reject  ,  4  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0
+Training  ,  Fish Visual  ,  1.6  ,  0.7151009  ,  Hit  ,  5  ,  0  ,  0  ,  0  ,  0  ,  1  ,  0  ,  0  ,  0  ,  0  ,  0
+Training  ,  Shark Visual  ,  1.6  ,  2.006794  ,  correct reject  ,  6  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0  ,  0
+  ,  Fish Visual  ,  1.6  ,  0.5888373  ,  Hit  ,  0  ,  0  ,  0  ,  0  ,  0  ,  1  ,  0  ,  0  ,  0  ,  0  ,  0
