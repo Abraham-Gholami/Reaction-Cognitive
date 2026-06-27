@@ -48,18 +48,21 @@
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Manager_Session.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_DesignSettings.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_AdvancedSettings.cs" />
-    <Compile Include="Assets\Asset Usage Finder\Editor\Data\InStageDependencyFinder.cs" />
+    <Compile Include="Assets\Editor\ShowOnlyDrawer.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Menu.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Resources.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_GeneralSettings.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Constants.cs" />
-    <Compile Include="Assets\Asset Usage Finder\Editor\PrefabUtilities.cs" />
+    <Compile Include="Assets\Editor\GCAnimationDetector.cs" />
+    <Compile Include="Assets\Editor\InitializeGCService.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_Folders.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_Separators.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_ShortcutSettings.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Window_TagLayer.cs" />
+    <Compile Include="Assets\Editor\GcDocument.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Configurable_Presets.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Operations.cs" />
+    <Compile Include="Assets\Editor\GcDashboard.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Window_Rename.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Manager_Editor.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Attributes.cs" />
@@ -68,8 +71,6 @@
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Color.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Texture.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Window_Main.cs" />
-    <Compile Include="Assets\Asset Usage Finder\Editor\Data\SearchTarget.cs" />
-    <Compile Include="Assets\Asset Usage Finder\Editor\Data\DependencyFinderEngine.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_Serializable.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Window_Folder.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Editor\Scripts\HierarchyDesigner_Shared_File.cs" />
@@ -362,6 +363,21 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Library\PackageCache\jillejr.newtonsoft.json-for-unity@13.0.102\Plugins\Newtonsoft.Json Editor\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="GCMultiplayer">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\GCMultiplayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="GCEncryption">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\GCEncryption.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="TcpStreamer">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\TcpStreamer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -861,6 +877,10 @@
       <Project>{3f1d0734-cbf6-487b-b3c8-3358ec64f8bf}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="RTLTMPro-Editor.csproj">
+      <Project>{7f517346-55a3-7c45-13e9-dc38850ed533}</Project>
+      <Name>RTLTMPro-Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{4653fe37-d603-26a3-f781-13f668e880c8}</Project>
       <Name>UnityEditor.UI</Name>
@@ -872,6 +892,10 @@
     <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
       <Project>{99e8116c-14ed-755c-6769-b9e1e6651119}</Project>
       <Name>Unity.2D.Sprite.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RTLTMPro.csproj">
+      <Project>{fdb3a95c-e480-e67d-2a5a-94b8b142dfc9}</Project>
+      <Name>RTLTMPro</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
       <Project>{928e05ce-d68a-468d-f8b1-c2459512bf11}</Project>

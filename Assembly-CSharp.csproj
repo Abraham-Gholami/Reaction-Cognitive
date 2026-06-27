@@ -45,61 +45,171 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GamingCloud\Api\Enums\CalendarEvents.cs" />
     <Compile Include="Assets\Scripts\ProgressBar.cs" />
-    <Compile Include="Assets\Scripts\FileUploader.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\ApiResponse.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\ApiResponseArray.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Demo\Sample Scripts\ShakeOnKeyPress.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Scripts\CameraShakePresets.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\models\ChangeTurnMode.cs" />
     <Compile Include="Assets\Scripts\SignUp\NewSignup\MainSignupForm.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\models\PlayerModel.cs" />
+    <Compile Include="Assets\Scripts\Audio\Clips.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\roleTemplate.cs" />
+    <Compile Include="Assets\GamingCloud\Api\PlayerStorage.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Scripts\CameraShakeInstance.cs" />
+    <Compile Include="Assets\Scripts\InputDataController.cs" />
+    <Compile Include="Assets\GamingCloud\Library\HTTP\Messages.cs" />
+    <Compile Include="Assets\Scripts\SignUpManager.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics2D.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\MultiPlayerErrors.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Scripts\Utilities\CameraUtilities.cs" />
+    <Compile Include="Assets\Scripts\BubbleController.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\tags\ClientSpawnPoint.cs" />
+    <Compile Include="Assets\Scripts\Questionnaire.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Demo\ShakeDemo.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\CalendarEvent.cs" />
     <Compile Include="Assets\Scripts\SignUp\SignUpHandler.cs" />
+    <Compile Include="Assets\GamingCloud\Library\GCPolicy.cs" />
     <Compile Include="Assets\Verpha\Hierarchy Designer\Runtime\Scripts\HierarchyDesignerFolder.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\AchivementResponse.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModuleAudio.cs" />
+    <Compile Include="Assets\GamingCloud\Library\HTTP\HttpRequest.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModuleUI.cs" />
+    <Compile Include="Assets\Scripts\AccelerometerUtil.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModuleSprite.cs" />
     <Compile Include="Assets\Scripts\ApiUser.cs" />
+    <Compile Include="Assets\Scripts\General\GenericSingleton.cs" />
+    <Compile Include="Assets\GamingCloud\Library\UnityMainThreadDispatcher.cs" />
+    <Compile Include="Assets\GamingCloud\Api\liveOps.cs" />
+    <Compile Include="Assets\Scripts\DataSender.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\PlayerStorageResponse.cs" />
+    <Compile Include="Assets\Scripts\HelperClasses.cs" />
+    <Compile Include="Assets\Scripts\Rotator.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Demo\Sample Scripts\ShakeOnTrigger.cs" />
+    <Compile Include="Assets\Scripts\RandomButtonGenerator.cs" />
+    <Compile Include="Assets\Scripts\SignUp\SimpleBlankSpaceAnswer.cs" />
     <Compile Include="Assets\Scripts\ScreenDebug.cs" />
+    <Compile Include="Assets\Scripts\ContentHandler.cs" />
+    <Compile Include="Assets\Scripts\SignUp\BlankBoxAnswer.cs" />
     <Compile Include="Assets\Scripts\UserCreator.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\ReportTemplate.cs" />
+    <Compile Include="Assets\Scripts\SignUp\CheckBoxAnswer.cs" />
+    <Compile Include="Assets\Scripts\SendJSONToServer.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\RankReponse.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\models\ChangeScoreMode.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Scripts\CameraShaker.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\LeaderBoard.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\models\RoomModel.cs" />
+    <Compile Include="Assets\Scripts\Audio\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\GyroAndAccelerometerControl.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModuleUnityVersion.cs" />
     <Compile Include="Assets\Scripts\CSVBuilder.cs" />
+    <Compile Include="Assets\GamingCloud\Library\HTTP\JsonParser.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\Scripts\ReactionButton.cs" />
+    <Compile Include="Assets\Scripts\SignUp\AnswerBase.cs" />
+    <Compile Include="Assets\GamingCloud\Api\players.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\AchivementTemplate.cs" />
     <Compile Include="Assets\Scripts\UIAnimationController.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\GCMultiPlayer.cs" />
+    <Compile Include="Assets\Scripts\SignUp\ToggleAnswer.cs" />
     <Compile Include="Assets\Scripts\SignUp\NewSignup\SignupManager.cs" />
-    <Compile Include="Assets\Scripts\GameFlowController.cs" />
     <Compile Include="Assets\Scripts\Bubble.cs" />
+    <Compile Include="Assets\GamingCloud\Api\GameUtilities.cs" />
+    <Compile Include="Assets\DOTween\Modules\DOTweenModuleUtils.cs" />
+    <Compile Include="Assets\Scripts\LevelsData.cs" />
+    <Compile Include="Assets\EZ Camera Shake\Demo\Sample Scripts\ShakeByDistance.cs" />
+    <Compile Include="Assets\Scripts\SignUp\DetailedWithCheckBoxAnswer.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\ForgotPasswordTemplate.cs" />
+    <Compile Include="Assets\Scripts\SignUp\DetailedAnswer.cs" />
+    <Compile Include="Assets\GamingCloud\Library\MultiPlayer\models\RoomSetting.cs" />
+    <Compile Include="Assets\Scripts\ComboSprite.cs" />
+    <Compile Include="Assets\Scripts\userCreate.cs" />
+    <Compile Include="Assets\Scripts\SettingsManager.cs" />
     <Compile Include="Assets\Scripts\ReactionManager.cs" />
+    <Compile Include="Assets\GamingCloud\Json Templates\RoomInfo.cs" />
+    <None Include="Assets\Resources\text.txt" />
     <None Include="Library\PackageCache\com.unity.modules.subsystems@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Library\PackageCache\com.unity.modules.jsonserialize@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.screencapture@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.cloth@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Library\PackageCache\com.unity.modules.unitywebrequesttexture@1.0.0\package.json" />
     <None Include="Assets\StreamingAssets\SignUp.txt" />
     <None Include="Library\PackageCache\com.unity.modules.ai@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Mobile Fixed.shader" />
     <None Include="Library\PackageCache\com.unity.ugui@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.2d.tilemap@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.assetbundle@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF Overlay Fixed.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
     <None Include="Library\PackageCache\com.unity.modules.imgui@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.tilemap@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Surface-Mobile Fixed.shader" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro_SurfaceOutline.cginc" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Surface Fixed.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Library\PackageCache\com.unity.modules.terrainphysics@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Library\PackageCache\com.unity.modules.unitywebrequestassetbundle@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Ranges\LetterRanges.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Library\PackageCache\com.unity.modules.imageconversion@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Ranges\TashkilRanges.txt" />
     <None Include="Library\PackageCache\com.unity.modules.unityanalytics@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.video@1.0.0\package.json" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
     <None Include="Assets\StreamingAssets\gyro.txt" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro.cginc" />
     <None Include="Library\PackageCache\com.unity.modules.particlesystem@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.physics2d@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Library\PackageCache\com.unity.modules.vr@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Mobile Masking Fixed.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
     <None Include="Library\PackageCache\com.unity.modules.wind@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Library\PackageCache\com.unity.modules.umbra@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF-Mobile Overlay Fixed.shader" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Library\PackageCache\com.unity.modules.audio@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.physics@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.vehicles@1.0.0\package.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
     <None Include="Library\PackageCache\com.unity.modules.unitywebrequestwww@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Library\PackageCache\com.unity.modules.unitywebrequestaudio@1.0.0\package.json" />
+    <None Include="Assets\Confetti FX\Readme.txt" />
     <None Include="Library\PackageCache\com.unity.modules.xr@1.0.0\package.json" />
     <None Include="Assets\StreamingAssets\export.txt" />
+    <None Include="Assets\RTLTMPro\Fonts\Mj_Naskh-Fontjo.com\read me!.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\DOTween\readme.txt" />
     <None Include="Library\PackageCache\com.unity.modules.director@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Ranges\NumberRanges.txt" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Library\PackageCache\com.unity.modules.terrain@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.2d.sprite@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.androidjni@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\Resources\GamingCloud.txt" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Library\PackageCache\com.unity.modules.animation@1.0.0\package.json" />
+    <None Include="Assets\RTLTMPro\Resources\Shaders\TMP_SDF Fixed.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Library\PackageCache\com.unity.modules.unitywebrequest@1.0.0\package.json" />
     <None Include="Library\PackageCache\com.unity.modules.uielements@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
     <None Include="Library\PackageCache\com.unity.modules.ui@1.0.0\package.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -348,6 +458,18 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Library\PackageCache\jillejr.newtonsoft.json-for-unity@13.0.102\Plugins\Newtonsoft.Json Editor\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="GCMultiplayer">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\GCMultiplayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="GCEncryption">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\GCEncryption.dll</HintPath>
+    </Reference>
+    <Reference Include="TcpStreamer">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\TcpStreamer.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -837,6 +959,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="RTLTMPro-Editor.csproj">
+      <Project>{7f517346-55a3-7c45-13e9-dc38850ed533}</Project>
+      <Name>RTLTMPro-Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{4653fe37-d603-26a3-f781-13f668e880c8}</Project>
       <Name>UnityEditor.UI</Name>
@@ -848,6 +974,10 @@
     <ProjectReference Include="Unity.2D.Sprite.Editor.csproj">
       <Project>{99e8116c-14ed-755c-6769-b9e1e6651119}</Project>
       <Name>Unity.2D.Sprite.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="RTLTMPro.csproj">
+      <Project>{fdb3a95c-e480-e67d-2a5a-94b8b142dfc9}</Project>
+      <Name>RTLTMPro</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.2D.Tilemap.Editor.csproj">
       <Project>{928e05ce-d68a-468d-f8b1-c2459512bf11}</Project>

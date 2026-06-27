@@ -35,7 +35,7 @@ public class Bubble : MonoBehaviour
         stimulusData.stateData = stateData;
         stimulusData.reactionTimer = timer;
         stimulusData.wasClickedOn = wasClickedOn;
-        stimulusData.startingTimer = GameFlowController.Instance.thisTryTimer;
+        stimulusData.startingTimer = RandomButtonGenerator.Instance.thisTryTimer;
         ReactionManager.Instance.RecevieStimulusFocuesdData(stimulusData);
     }
     bool wasClickedOn;

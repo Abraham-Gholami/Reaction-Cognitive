@@ -5,28 +5,69 @@ using System.Text;
 using System;
 using System.IO;
 using UnityEngine.Networking;
+using Newtonsoft.Json;
 
 public class CSVBuilder : GenericSingleton<CSVBuilder>
 {
-    StringBuilder sb = new StringBuilder("Type,Mode,StartingTime,ReactionTime,Response,Trial,upperLeft,middleLeft,lowerLeft,upperMiddle,middleMiddle,lowerMiddle,upperRight,middleRight,lowerRight,starTaps");
+    string userPost = "http://gamesdata.cognitivetests.ir/Users";
+    string appId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
+    User user = new User();
+    public void OnMakeUser()
+    {
+        StartCoroutine(MakeUser());
+    }
+    bool signedUp;
+    private IEnumerator  MakeUser()
+    {
+       if(signedUp) yield return null;
+        var guid = Guid.NewGuid();
+        user.userid = guid.ToString();
+        user.appId = appId;
+        int random = UnityEngine.Random.Range(1000,110000);
+        user.userName = "TestUser123456" + random;
+        user.firstName = "Test";
+        user.lastName = "User";
+        user.password = "12345" + random;
+        var jsonObject = JsonConvert.SerializeObject(user);
+        DownloadHandlerBuffer downloadHandlerBuffer = new DownloadHandlerBuffer();
+        var jsonBinary = System.Text.Encoding.UTF8.GetBytes(jsonObject);
+        UploadHandlerRaw uploadHandlerRaw = new UploadHandlerRaw(jsonBinary);
+        UnityWebRequest www =
+        new UnityWebRequest(userPost, "POST", downloadHandlerBuffer, uploadHandlerRaw);
+		www.SetRequestHeader ("Content-Type", "application/json");
+        yield return www.Send();
+        if (www.isNetworkError || www.downloadHandler.text.IndexOf("Success") == -1)
+        {
+            Debug.LogError(string.Format("{0}: {1} json is: {2}", www.url, www.error, jsonObject));
+        }
+        else
+        {
+            Debug.Log(string.Format("Response: {0}", www.downloadHandler.text));
+
+        }
+        signedUp = true;
+
+    }
+    StringBuilder sb = new StringBuilder("Type,Mode,StartingTime,ReactionTime,Response,Trial,GSD_X,GSD_Y,GSD_Z,upperLeft,middleLeft,lowerLeft,upperMiddle,middleMiddle,lowerMiddle,upperRight,middleRight,lowerRight");
     [TextArea(40,100)]
     [SerializeField]
     string allData;
-    string gyroDataString;
     string space = "  ,  ";
-    
+    [SerializeField]
+    bool save;
     public void ToCSV(StimulusData data)
     {
+        
         sb.Append('\n').Append(data.levelDescription).Append(space).Append(GetType(data.stateData)).Append(space)
-        .Append(timerType).Append(space).Append(data.reactionTimer).Append(space).Append(GetResponse(data)).Append(space)
-        .Append(data.tryNumber).Append(space).Append(data.upperLeft).Append(space).Append(data.middleLeft)
-        .Append(space).Append(data.lowerLeft).Append(space).Append(data.upperMiddle).Append(space).Append(data.middleMiddle).Append(space)
-        .Append(data.lowerMiddle).Append(space).Append(data.upperRight).Append(space).Append(data.middleRight).Append(space).Append(data.lowerRight).Append(space).Append(data.starTaps);
+        .Append(data.startingTimer).Append(space).Append(data.reactionTimer).Append(space).Append(GetResponse(data)).Append(space)
+        .Append(data.tryNumber).Append(space).Append(data.gyroScopeData.x).Append(space)
+        .Append(data.gyroScopeData.y).Append(space)
+        .Append(data.gyroScopeData.z).Append(space).Append(data.upperLeft).Append(space).Append(data.middleLeft)
+        .Append(space).Append(data.lowerLeft).Append(space).Append(data.upperMiddle).Append(space).Append(data.middleMiddle)
+        .Append(data.lowerMiddle).Append(space).Append(data.upperRight).Append(space).Append(data.middleRight).Append(space).Append(data.lowerRight);
         allData = sb.ToString();
+        if(save) SaveToFile();
     }
-    
-    float timerType;
-    
     string GetType(StateData data)
     {
         string type = "";
@@ -38,11 +79,8 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             type = "Fish Auditory";
         else if(data.SA)
             type = "Shark Auditory";
-        if(data.SA || data.FA) timerType = 2;
-        else if(data.SV || data.FV) timerType = 1.6f;
         return type;
     }
-    
     string GetResponse(StimulusData stimulus)
     {
         string response = "";
@@ -56,129 +94,64 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             response = "omission error";
         return response;
     }
-    
-    [SerializeField] GameObject panel;
-    [SerializeField] GameObject completed;
-    [SerializeField] GameObject failed;
-    
+    string Url = "http://gamesdata.cognitivetests.ir/Data/apps/43921cf3-b5ca-4897-a2b9-4ac919e7af77/users/";
     public async void SaveToFile ()
     {
         var content = allData;
-        var folder = "";
-        var filePath = "";
     #if UNITY_EDITOR
-        folder = Application.streamingAssetsPath;
-        filePath = Path.Combine(folder, "export.txt");
+        var folder = Application.streamingAssetsPath;
+
         if(! Directory.Exists(folder)) Directory.CreateDirectory(folder);
-        if(Directory.Exists(filePath)) Directory.Delete(filePath);
     #else
-        folder = Application.persistentDataPath;
-        filePath = Path.Combine(folder, "export.txt");
-        if(Directory.Exists(filePath)) Directory.Delete(filePath);
+        var folder = Application.persistentDataPath;
     #endif
+
+        var filePath = Path.Combine(folder, "export.txt");
 
         using(var writer = new StreamWriter(filePath, false))
         {
             await writer.WriteAsync(content);
         }
-        var file = System.IO.File.ReadAllText(filePath);
-        panel.SetActive(true);
-        Action<bool> onComplete = new Action<bool>
-        (
-            (value) => MainDataResult(value)
-        ); 
-        FileUploader.Instance.UploadFile(file,"export",onComplete);
+        //File.WriteAllText(content);
+        var file = System.IO.File.ReadAllText(filePath); 
+        StartCoroutine(PostRequest(file));
     #if UNITY_EDITOR
         UnityEditor.AssetDatabase.Refresh();
     #endif
     }
-    
-    public async void SaveGyroToFile ()
+    private IEnumerator PostRequestCoroutine(string json)
     {
-        var content = gyroDataString;
-        var folder = "";
-        var filePath = "";
-    #if UNITY_EDITOR
-        folder = Application.streamingAssetsPath;
-        filePath = Path.Combine(folder, "gyro.txt");
-        if(! Directory.Exists(folder)) Directory.CreateDirectory(folder);
-        if(Directory.Exists(filePath)) Directory.Delete(filePath);
-    #else
-        folder = Application.persistentDataPath;
-        filePath = Path.Combine(folder, "gyro.txt");
-        if(Directory.Exists(filePath)) Directory.Delete(filePath);
-    #endif
+    
+        var jsonData = System.Text.Encoding.UTF8.GetBytes(json);
+        DownloadHandlerBuffer downloadHandlerBuffer = new DownloadHandlerBuffer();
+        UploadHandlerRaw uploadHandlerRaw = new UploadHandlerRaw(jsonData);
+        UnityWebRequest www =
+        new UnityWebRequest(Url + user.userid, "POST", downloadHandlerBuffer, uploadHandlerRaw);
+		www.SetRequestHeader ("Content-Type", "text/plain");
+        yield return www.SendWebRequest();
+        Debug.Log(www.responseCode);
+        
+    }
+    private IEnumerator PostRequest(string json)
+    {
+        yield return MakeUser();
 
-        using(var writer = new StreamWriter(filePath, false))
-        {
-            await writer.WriteAsync(content);
-        }
-        var file = System.IO.File.ReadAllText(filePath);
-        panel.SetActive(true);
-        Action<bool> onComplete = new Action<bool>
-        (
-            (value) => ShowResult(value)
-        ); 
-        ScreenDebug.Instance.Debug("gyro");
-        FileUploader.Instance.UploadFile(file,"gyro",onComplete);
-    #if UNITY_EDITOR
-        UnityEditor.AssetDatabase.Refresh();
-    #endif
-    }
-    
-    void ShowResult(bool result)
-    {
-        if(result)
-            completed.SetActive(true);
-        else
-            failed.SetActive(true);
-    }
-    
-    void MainDataResult(bool result)
-    {
-        if(result)
-            SaveGyroToFile ();
-        else
-            failed.SetActive(true);
-    }
-    
-    public void GatherGyroscopeData(GyroData data)
-    {
-        // FIXED: Check actual list sizes and use the minimum to prevent index out of range
-        int gyroCount = data.gyroscope?.Count ?? 0;
-        int accelCount = data.acceleration?.Count ?? 0;
-        int maxSamples = Mathf.Min(gyroCount, accelCount, 25); // Use minimum of all three
+        var jsonBinary = System.Text.Encoding.UTF8.GetBytes(json);
+        Data data = new Data();
+        data.userid = user.userid;
+        data.appId = user.appId;
+        data.file = jsonBinary;
+        var jsonObject  = JsonConvert.SerializeObject(data);
+        yield return PostRequestCoroutine(jsonObject);
         
-        Debug.Log($"Gathering gyro data - Gyro count: {gyroCount}, Accel count: {accelCount}, Using: {maxSamples} samples");
-        
-        for (int i = 0; i < maxSamples; i++)
-        {
-            stringBuilder.Append('\n').Append(data.second).Append(space).Append(i + 1).Append(space)
-                .Append(data.gyroscope[i].x).Append(space).Append(data.gyroscope[i].y).Append(space).Append(data.gyroscope[i].z).Append(space)
-                .Append(data.acceleration[i].x).Append(space).Append(data.acceleration[i].y).Append(space).Append(data.acceleration[i].z);
-        }
-        gyroDataString = stringBuilder.ToString();
     }
-    
-    StringBuilder stringBuilder = new StringBuilder("Second,DataCounter,GSD_X,GSD_Y,GSD_Z,Acc_X,Acc_Y,Acc_Z");
 }
-
 public class User 
 {
-    public string userid;
-    public string appId;
-    public string userName;
-    public string firstName;
-    public string lastName;
-    public string password;
+    public string userid,appId,userName,firstName,lastName,password;
 }
-
 public class Data 
 {
-    public string userid;
-    public string appId;
-    public string location;
-    public string rawdata;
-    public string fileName;
-    public byte[] file;
+    public string userid,appId,location,rawdata;
+    public byte [] file;
 }

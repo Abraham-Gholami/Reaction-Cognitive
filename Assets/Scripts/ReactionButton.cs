@@ -23,9 +23,9 @@ public class ReactionButton : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable() 
     {
-        GameFlowController.Instance.bubble.answer = answer;
-        GameFlowController.Instance.bubble.stateData = stateData;
-        reactionTimer = type == StimulusType.Visual ? GameFlowController.Instance.visualTimer : GameFlowController.Instance.audioTimer;
+        RandomButtonGenerator.Instance.bubble.answer = answer;
+        RandomButtonGenerator.Instance.bubble.stateData = stateData;
+        reactionTimer = type == StimulusType.Visual ? RandomButtonGenerator.Instance.visualTimer : RandomButtonGenerator.Instance.audioTimer;
         wasClickedOn = false;
         if(image)
             image.enabled = true;
@@ -68,7 +68,7 @@ public class ReactionButton : MonoBehaviour
         stimulusData.stateData = stateData;
         stimulusData.reactionTimer = timer;
         stimulusData.wasClickedOn = wasClickedOn;
-        stimulusData.startingTimer = GameFlowController.Instance.thisTryTimer;
+        stimulusData.startingTimer = RandomButtonGenerator.Instance.thisTryTimer;
         ReactionManager.Instance.RecevieStimulusFocuesdData(stimulusData);
     }
     bool wasClickedOn;

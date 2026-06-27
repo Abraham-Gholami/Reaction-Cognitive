@@ -423,6 +423,21 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Library\PackageCache\jillejr.newtonsoft.json-for-unity@13.0.102\Plugins\Newtonsoft.Json Editor\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="GCMultiplayer">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\GCMultiplayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTween">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="GCEncryption">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\GCEncryption.dll</HintPath>
+    </Reference>
+    <Reference Include="DOTweenEditor">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\DOTween\Editor\DOTweenEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="TcpStreamer">
+      <HintPath>E:\Unity\Maghzineh\ReactionGameGit\Assets\GamingCloud\Plugins\TcpStreamer.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.62f3\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
