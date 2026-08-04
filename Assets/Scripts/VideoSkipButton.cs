@@ -74,6 +74,13 @@ public class VideoSkipButton : MonoBehaviour
         // so the Persian caption gets shaped and reordered correctly.
         if (label.text != caption) label.text = caption;
         label.alignment = TextAlignmentOptions.Center;
+
+        // The counters' font (Lalezar) ships a static, digits-only atlas, so a Persian
+        // caption on it renders as nothing at all — a silent blank button. Say so loudly
+        // rather than leaving someone to wonder why the label is invisible.
+        if (label.font != null && !label.font.HasCharacters(caption))
+            Debug.LogWarning("VideoSkipButton: font '" + label.font.name +
+                             "' has no glyphs for \"" + caption + "\" - the label will be blank.");
     }
 
     void Skip()
