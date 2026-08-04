@@ -75,6 +75,12 @@ public class VideoSkipButton : MonoBehaviour
         if (label.text != caption) label.text = caption;
         label.alignment = TextAlignmentOptions.Center;
 
+        // RTLTextMeshPro's text setter early-returns when the string is unchanged, so
+        // after the font asset was swapped nothing ever rebuilt the mesh and the label
+        // stayed blank while every inspector value looked correct. Rebuild explicitly.
+        label.SetAllDirty();
+        label.ForceMeshUpdate(true, true);
+
         // The counters' font (Lalezar) ships a static, digits-only atlas, so a Persian
         // caption on it renders as nothing at all — a silent blank button. Say so loudly
         // rather than leaving someone to wonder why the label is invisible.
