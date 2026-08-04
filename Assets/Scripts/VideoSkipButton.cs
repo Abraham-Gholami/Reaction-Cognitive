@@ -39,6 +39,19 @@ public class VideoSkipButton : MonoBehaviour
         var rt = transform as RectTransform;
         if (rt == null) return;
 
+        // The video canvas is rendered by VideoCam, whose culling mask covers only that
+        // canvas's layer. A button created at the scene root keeps the Default layer and
+        // is silently culled — visible in the hierarchy, drawn nowhere. Inherit the
+        // canvas's layer for this object and everything under it.
+        var canvas = GetComponentInParent<Canvas>();
+        if (canvas != null)
+        {
+            var layer = canvas.gameObject.layer;
+            gameObject.layer = layer;
+            foreach (var t in GetComponentsInChildren<Transform>(true))
+                t.gameObject.layer = layer;
+        }
+
         // bottom-right corner of the video canvas
         rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(1f, 0f);
         rt.sizeDelta = size;

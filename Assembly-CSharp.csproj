@@ -76,6 +76,7 @@
     <Compile Include="Assets/GamingCloud/Json Templates/roleTemplate.cs" />
     <Compile Include="Assets/DOTween/Modules/DOTweenModulePhysics2D.cs" />
     <Compile Include="Assets/DOTween/Modules/DOTweenModuleUI.cs" />
+    <Compile Include="Assets/Scripts/SessionGuard.cs" />
     <Compile Include="Assets/Underwater GUI Pack/Scripts/clickbutton.cs" />
     <Compile Include="Assets/Scripts/SignUp/BlankBoxAnswer.cs" />
     <Compile Include="Assets/GamingCloud/Api/GameUtilities.cs" />
