@@ -24,7 +24,7 @@ namespace gamingCloud
         class tmp_json
         {
             public string key;
-            public Dictionary<string, dynamic> value;
+            public Dictionary<string, object> value;
         }
         /// <summary>
         /// Create Your Player Storage  Data
@@ -32,7 +32,7 @@ namespace gamingCloud
         ///  <param name="key"> the key of PlayerExtra </param>
         ///  <param name="value"> the value of PlayerExtra </param>
         /// <return></return>
-        public static async Task<RestfulMessages> SetJson(string key, Dictionary<string, dynamic> json)
+        public static async Task<RestfulMessages> SetJson(string key, Dictionary<string, object> json)
         {
 
             if (Players.IsLogin == false)
@@ -67,7 +67,7 @@ namespace gamingCloud
                 return RestfulMessages.failure;
 
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
 
             body.Add("key", key);
 
@@ -258,7 +258,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PostRequestAsync("/players/v2/storage", body);
@@ -285,7 +285,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PostRequestAsync("/players/v2/storage", body);
@@ -309,7 +309,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PostRequestAsync("/players/v2/storage", body);
@@ -333,7 +333,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PostRequestAsync("/players/v2/storage", body);
@@ -357,7 +357,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PostRequestAsync("/players/v2/storage", body);
@@ -382,7 +382,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PostRequestAsync("/players/v2/storage", body);
@@ -413,7 +413,7 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
                 var rr = data["data"]["value"];
-                return new PlayerStorageResponseJson(true, req.responseStatusCode, rr.ToObject<Dictionary<string, dynamic>>());
+                return new PlayerStorageResponseJson(true, req.responseStatusCode, rr.ToObject<Dictionary<string, object>>());
             }
 
             return new PlayerStorageResponseJson(false, (int)data["ecode"]);
@@ -670,7 +670,7 @@ namespace gamingCloud
         ///  <param name="key"> the key of PlayerExtra </param>
         ///  <param name="value"> the value of PlayerExtra </param>
         /// <return></return>
-        public static async Task<RestfulMessages> EditJson(string key, Dictionary<string, dynamic> json)
+        public static async Task<RestfulMessages> EditJson(string key, Dictionary<string, object> json)
         {
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
@@ -702,7 +702,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("key", key);
             body.Add("value", json);
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
@@ -730,7 +730,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value);
 
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
@@ -754,7 +754,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value);
 
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
@@ -778,7 +778,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value);
 
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
@@ -802,7 +802,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value);
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 
@@ -826,7 +826,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value);
 
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
@@ -850,7 +850,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value);
 
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
@@ -875,7 +875,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value.ToString());
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 
@@ -900,7 +900,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value.ToString());
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 
@@ -924,7 +924,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value.ToString());
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 
@@ -948,7 +948,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value.ToString());
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 
@@ -972,7 +972,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value.ToString());
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 
@@ -996,7 +996,7 @@ namespace gamingCloud
             if (Players.IsLogin == false)
                 return RestfulMessages.failure;
 
-            Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+            Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("value", value.ToString());
             ServerResponse req = await HttpRequest.PutRequestAsync("/players/v2/storage/" + key, body);
 

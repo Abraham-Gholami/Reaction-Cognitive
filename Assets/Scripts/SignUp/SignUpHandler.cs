@@ -12,40 +12,67 @@ public class SignUpHandler : MonoBehaviour
     AnswerBase [] answerBases;
     [SerializeField]
     GameObject viewPort,wait;
-    [SerializeField] userCreate userCreator;
-    
+    [SerializeField] UserCreator userCreator;
+    [SerializeField] SimpleBlankSpaceAnswer nameBox;
     void Start() 
     {
         answerBases = questionairesParent.GetComponentsInChildren<AnswerBase>();
     }
     public void SignUp()
     {
-        userCreator.MakeUser();
+        userCreator.CreateUser();
         viewPort.SetActive(false);
         wait.SetActive(true);
         WriteString();
+        
     }
+    [SerializeField] GameObject completed,failed;
+    
     async void  WriteString()
     {
+        var folder = "";
+        var filePath = "";
         #if UNITY_EDITOR
-            var folder = Application.streamingAssetsPath;
+            folder = Application.streamingAssetsPath;
+            filePath = Path.Combine(folder, "SignUp.txt");
             if(! Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            if(Directory.Exists(filePath)) Directory.Delete(filePath);
         #else
-            var folder = Application.persistentDataPath;
+            folder = Application.persistentDataPath;
+            filePath = Path.Combine(folder, "SignUp.txt");
+            if(Directory.Exists(filePath)) Directory.Delete(filePath);
         #endif
-        var filePath = Path.Combine(folder, "SignUp.text");
-        StreamWriter writer = new StreamWriter(filePath, true);
+        
+        // append:false — this used to append, and the Directory.Delete guard above never
+        // fires (it tests a FILE path as a directory), so participant #7's questionnaire
+        // upload contained all seven children's answers concatenated.
+        StreamWriter writer = new StreamWriter(filePath, false);
         foreach (var item in answerBases)
         {
             await writer.WriteLineAsync(item.GetAnswer() + Environment.NewLine);
         }
         writer.Close();
-        wait.SetActive(false);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    
+        var file = System.IO.File.ReadAllText(filePath); 
+        Action<bool> onComplete = new Action<bool>
+        (
+            (value)=> OnComplete(value)
+        );
+        FileUploader.Instance.UploadFile(file,"SignUp",onComplete,nameBox.answer);
         #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
         #endif
     }
+    void OnComplete(bool callback)
+    {
+        StartCoroutine(OnCompleteDelay(callback));
+    }
+    IEnumerator OnCompleteDelay(bool callback)
+    {
+        //completed.SetActive(callback);
+        //failed.SetActive(!callback);
+        yield return new WaitForSeconds(0);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    
 
 }

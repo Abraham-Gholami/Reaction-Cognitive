@@ -13,7 +13,7 @@ public class ScreenDebug : GenericSingleton<ScreenDebug>
     public void Debug(string msg)
     {
         if(!debug) return;
-        debug.text += System.Environment.NewLine + msg; 
+       debug.text += System.Environment.NewLine + msg; 
         UnityEngine.Debug.Log(msg);
     }
 }

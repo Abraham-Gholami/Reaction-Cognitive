@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7e06616a515ad44a7af11a4ce1f011, type: 3}
+  m_Name: Clips
+  m_EditorClassIdentifier: 
+  buttonClick:
+    audioClip: {fileID: 0}
+    loop: 0
+  levelCompleted:
+    audioClip: {fileID: 0}
+    loop: 0
+  bubblePopped:
+    audioClip: {fileID: 8300000, guid: 114eb638ebebbe643a0c164dc70610be, type: 3}
+    loop: 0
+  levelFailed:
+    audioClip: {fileID: 0}
+    loop: 0
+  negEnforcer:
+    audioClip: {fileID: 8300000, guid: c434913e051a1db4c9d9e72a32f7e8e0, type: 3}
+    loop: 0
+  posEnforcer:
+    audioClip: {fileID: 8300000, guid: 114eb638ebebbe643a0c164dc70610be, type: 3}
+    loop: 0
+  gamePlayMusic:
+    audioClip: {fileID: 0}
+    loop: 0

@@ -82,15 +82,15 @@ namespace gamingCloud
             {
                 _playerToken = resp["token"].ToObject<string>();
                 resp.Remove("token");
-                return new ApiResponse(true, req.responseStatusCode, resp.ToObject<Dictionary<string, dynamic>>());
+                return new ApiResponse(true, req.responseStatusCode, resp.ToObject<Dictionary<string, object>>());
             }
-            else if (resp["ecode"].ToObject<int>() == 10012)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 10012)
             {
                 return new ApiResponse(false, 10012, null);
 
             }
 
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
         }
 
 
@@ -108,20 +108,20 @@ namespace gamingCloud
             body["password"] = "guest";
 
             ServerResponse req = await PostRequestAsync("/players/v2/register?createMode=guest", body);
-            var resp = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(req.responseMessage);
+            var resp = JsonConvert.DeserializeObject<Dictionary<string, object>>(req.responseMessage);
             if (req.IsSuccess)
             {
-                _playerToken = resp["token"];
+                _playerToken = resp["token"]?.ToString();
                 resp.Remove("token");
                 return new ApiResponse(true, req.responseStatusCode, resp);
             }
-            else if (resp["ecode"] == 10012)
+            else if (System.Convert.ToInt64(resp["ecode"]) == 10012)
             {
                 return new ApiResponse(false, 10012, null);
 
             }
 
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
         }
 
         /// <summary>
@@ -131,20 +131,20 @@ namespace gamingCloud
         {
 
             ServerResponse req = await PostRequestAsync("/players/v2/register?createMode=guest", new JObject());
-            var resp = JsonConvert.DeserializeObject<Dictionary<string, dynamic>>(req.responseMessage);
+            var resp = JsonConvert.DeserializeObject<Dictionary<string, object>>(req.responseMessage);
             if (req.IsSuccess)
             {
-                _playerToken = resp["token"];
+                _playerToken = resp["token"]?.ToString();
                 resp.Remove("token");
                 return new ApiResponse(true, 200, resp);
             }
-            else if (resp["ecode"] == 10012)
+            else if (System.Convert.ToInt64(resp["ecode"]) == 10012)
             {
                 return new ApiResponse(false, 10012, null);
 
             }
 
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
         }
         /// <summary>
         /// login your player in game
@@ -166,24 +166,24 @@ namespace gamingCloud
             {
                 _playerToken = resp["token"].ToObject<string>();
                 resp.Remove("token");
-                return new ApiResponse(true, 200, resp.ToObject<Dictionary<string, dynamic>>());
+                return new ApiResponse(true, 200, resp.ToObject<Dictionary<string, object>>());
             }
-            else if (resp["ecode"].ToObject<int>() == 404)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 404)
             {
                 return new ApiResponse(false, 404, null);
 
             }
-            else if (resp["ecode"].ToObject<int>() == 10090)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 10090)
             {
                 return new ApiResponse(false, 10090, null);
 
             }
-            else if (resp["ecode"].ToObject<int>() == 10091)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 10091)
             {
                 return new ApiResponse(false, 10091, null);
 
             }
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
 
         }
 
@@ -208,14 +208,14 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
 
-                return new ApiResponse(true, 200, resp.ToObject<Dictionary<string, dynamic>>());
+                return new ApiResponse(true, 200, resp.ToObject<Dictionary<string, object>>());
             }
-            else if (resp["ecode"].ToObject<int>() == 404)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 404)
             {
                 return new ApiResponse(false, 404, null);
 
             }
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
         }
         /// <summary>
         /// get your player info with this method
@@ -228,14 +228,14 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
 
-                return new ApiResponse(true, 200, resp.ToObject<Dictionary<string, dynamic>>());
+                return new ApiResponse(true, 200, resp.ToObject<Dictionary<string, object>>());
             }
-            else if (resp["ecode"].ToObject<int>() == 404)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 404)
             {
                 return new ApiResponse(false, 404, null);
 
             }
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
         }
         /// <summary>
         /// get your player's info as a leaderboard 
@@ -251,7 +251,7 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
                 JObject j = JObject.Parse(req.responseMessage);
-                List<Dictionary<string, dynamic>> list = j["players"].ToObject<List<Dictionary<string, dynamic>>>();
+                List<Dictionary<string, object>> list = j["players"].ToObject<List<Dictionary<string, object>>>();
                 leaderBoard.pages = j["pages"].ToObject<int>();
                 leaderBoard.players = list;
 
@@ -274,7 +274,7 @@ namespace gamingCloud
             JObject j = JObject.Parse(req.responseMessage);
             if (req.IsSuccess)
             {
-                List<Dictionary<string, dynamic>> list = j["players"].ToObject<List<Dictionary<string, dynamic>>>();
+                List<Dictionary<string, object>> list = j["players"].ToObject<List<Dictionary<string, object>>>();
                 leaderBoard.pages = j["pages"].ToObject<int>();
                 leaderBoard.players = list;
 
@@ -301,16 +301,16 @@ namespace gamingCloud
 
             if (req.IsSuccess == true)
                 return new ForgotPasswordTemplate(resp["mask"].ToString(), RestfulMessages.successful);
-            else if (resp["ecode"].ToObject<int>() == 10070)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 10070)
             {
                 return new ForgotPasswordTemplate(null, RestfulMessages.SenderNotFound);
 
             }
             else
             {
-                if (resp["ecode"].ToObject<int>() == 10073)
+                if (System.Convert.ToInt32(resp["ecode"]) == 10073)
                     return new ForgotPasswordTemplate(null, RestfulMessages.EmailOrPhoneNotFound);
-                if (resp["ecode"].ToObject<int>() == 10079)
+                if (System.Convert.ToInt32(resp["ecode"]) == 10079)
                     return new ForgotPasswordTemplate(null, RestfulMessages.SMSwalletNotEnough);
             }
 
@@ -337,16 +337,16 @@ namespace gamingCloud
 
             if (req.IsSuccess == true)
                 return new ForgotPasswordTemplate(resp["mask"].ToString(), RestfulMessages.successful);
-            else if (resp["ecode"].ToObject<int>() == 10070)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 10070)
             {
                 return new ForgotPasswordTemplate(null, RestfulMessages.SenderNotFound);
 
             }
             else
             {
-                if (resp["ecode"].ToObject<int>() == 10073)
+                if (System.Convert.ToInt32(resp["ecode"]) == 10073)
                     return new ForgotPasswordTemplate(null, RestfulMessages.EmailOrPhoneNotFound);
-                if (resp["ecode"].ToObject<int>() == 10078)
+                if (System.Convert.ToInt32(resp["ecode"]) == 10078)
                     return new ForgotPasswordTemplate(null, RestfulMessages.EmailwalletNotEnough);
             }
             return new ForgotPasswordTemplate(null, RestfulMessages.failure);
@@ -393,12 +393,12 @@ namespace gamingCloud
             }
             else
             {
-                if (resp["ecode"].ToObject<int>() == 10074)
+                if (System.Convert.ToInt32(resp["ecode"]) == 10074)
                     return new ApiResponse(false, 10074, null);
 
 
             }
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
 
 
         }
@@ -422,19 +422,19 @@ namespace gamingCloud
             var resp = JObject.Parse(req.responseMessage);
             if (req.IsSuccess)
             {
-                return new ApiResponse(true, req.responseStatusCode, resp.ToObject<Dictionary<string, dynamic>>());
+                return new ApiResponse(true, req.responseStatusCode, resp.ToObject<Dictionary<string, object>>());
             }
-            else if (resp["ecode"].ToObject<int>() == 404)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 404)
             {
                 return new ApiResponse(false, 404, null);
 
             }
-            else if (resp["ecode"].ToObject<int>() == 10012)
+            else if (System.Convert.ToInt32(resp["ecode"]) == 10012)
             {
                 return new ApiResponse(false, 10012, null);
 
             }
-            return new ApiResponse(false, resp["ecode"].ToObject<int>(), null);
+            return new ApiResponse(false, System.Convert.ToInt32(resp["ecode"]), null);
         }
         /// <summary>
         /// edit other player data

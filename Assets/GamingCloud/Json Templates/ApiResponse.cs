@@ -5,11 +5,11 @@ namespace gamingCloud.templates
 
     public class ApiResponse
     {
-        public Dictionary<string, dynamic> response= new Dictionary<string, dynamic>();
+        public Dictionary<string, object> response= new Dictionary<string, object>();
         public RestfulMessages status = RestfulMessages.successful;
         public bool isSuccessful = true;
 
-        public ApiResponse(bool isSuccessful, int status, Dictionary<string,dynamic> resp = null)
+        public ApiResponse(bool isSuccessful, int status, Dictionary<string,object> resp = null)
         {
             if (isSuccessful)
                 response = resp;

@@ -11,9 +11,9 @@ namespace gamingCloud
 {
     public class DBaaSResponse
     {
-        public Dictionary<string, dynamic> response;
+        public Dictionary<string, object> response;
         public RestfulMessages status;
-        public DBaaSResponse(Dictionary<string, dynamic> _response, RestfulMessages _status)
+        public DBaaSResponse(Dictionary<string, object> _response, RestfulMessages _status)
         {
             response = _response;
             status = _status;
@@ -22,13 +22,13 @@ namespace gamingCloud
     class dataTMP
     {
         public string schema_id;
-        public Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+        public Dictionary<string, object> body = new Dictionary<string, object>();
     }
     class dataTMPEdit
     {
         public string schema_id;
         public string document_id;
-        public Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+        public Dictionary<string, object> body = new Dictionary<string, object>();
     }
     public class GameUtilities : HttpRequest
     {
@@ -101,7 +101,7 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
 
-                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, dynamic>>>());
+                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, object>>>());
             }
             else if (req.responseStatusCode == 200)
             {
@@ -122,7 +122,7 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
 
-                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, dynamic>>>());
+                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, object>>>());
             }
             else if (req.responseStatusCode == 200)
             {
@@ -147,7 +147,7 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
 
-                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, dynamic>>>());
+                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, object>>>());
             }
             else if (req.responseStatusCode == 200)
             {
@@ -168,7 +168,7 @@ namespace gamingCloud
             if (req.IsSuccess)
             {
 
-                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, dynamic>>>());
+                return new ApiResponseArray(true, req.responseStatusCode, resp.ToObject<List<Dictionary<string, object>>>());
             }
             else if (req.responseStatusCode == 200)
             {
@@ -186,11 +186,11 @@ namespace gamingCloud
         ///  <param name="id"> the id for doing Achivement </param>
         public static async Task<ApiResponse> DoAchivement(string id)
         {
-            ServerResponse req = await HttpRequest.PutRequestAsync("/game/achievments/use", new Dictionary<string, dynamic> { { "achivId", id } });
+            ServerResponse req = await HttpRequest.PutRequestAsync("/game/achievments/use", new Dictionary<string, object> { { "achivId", id } });
             var resp = JObject.Parse(req.responseMessage);
             if (req.IsSuccess == true)
             {
-                return new ApiResponse(true, req.responseStatusCode, resp.ToObject<Dictionary<string, dynamic>>());
+                return new ApiResponse(true, req.responseStatusCode, resp.ToObject<Dictionary<string, object>>());
             }
             else if (req.responseStatusCode == 300)
                 return new ApiResponse(false, req.responseStatusCode);
@@ -229,14 +229,14 @@ namespace gamingCloud
         {
             var stringJSON = JsonConvert.SerializeObject(data);
             dataTMP tmp = new dataTMP();
-            tmp.body = JObject.Parse(stringJSON).ToObject<Dictionary<string, dynamic>>();
+            tmp.body = JObject.Parse(stringJSON).ToObject<Dictionary<string, object>>();
             tmp.schema_id = tableId;
-            var values = JObject.Parse(JsonConvert.SerializeObject(tmp)).ToObject<Dictionary<string, dynamic>>();
+            var values = JObject.Parse(JsonConvert.SerializeObject(tmp)).ToObject<Dictionary<string, object>>();
             ServerResponse req = await PostRequestAsync("/DBaaS/document", values);
 
             if (req.IsSuccess == true)
             {
-                return new DBaaSResponse(JObject.Parse(req.responseMessage).ToObject<Dictionary<string, dynamic>>(), RestfulMessages.successful);
+                return new DBaaSResponse(JObject.Parse(req.responseMessage).ToObject<Dictionary<string, object>>(), RestfulMessages.successful);
             }
             else if (req.responseMessage == "4043")
             {
@@ -261,17 +261,17 @@ namespace gamingCloud
         {
             var stringJSON = JsonConvert.SerializeObject(data);
             dataTMPEdit tmp = new dataTMPEdit();
-            tmp.body = JObject.Parse(stringJSON).ToObject<Dictionary<string, dynamic>>();
+            tmp.body = JObject.Parse(stringJSON).ToObject<Dictionary<string, object>>();
             tmp.schema_id = tableId;
             tmp.document_id = recordId;
-            var values = JObject.Parse(JsonConvert.SerializeObject(tmp)).ToObject<Dictionary<string, dynamic>>();
+            var values = JObject.Parse(JsonConvert.SerializeObject(tmp)).ToObject<Dictionary<string, object>>();
             ServerResponse req = await PutRequestAsync("/DBaaS/document", values);
 
             if (req.IsSuccess == true)
             {
                 var resp = (JObject)JsonConvert.DeserializeObject(req.responseMessage);
                 var res = resp["newDocument"];
-                return new DBaaSResponse(JObject.Parse(JsonConvert.SerializeObject(res)).ToObject<Dictionary<string, dynamic>>(), RestfulMessages.successful);
+                return new DBaaSResponse(JObject.Parse(JsonConvert.SerializeObject(res)).ToObject<Dictionary<string, object>>(), RestfulMessages.successful);
             }
             else if (req.responseMessage == "4043")
             {

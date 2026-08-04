@@ -38,6 +38,18 @@ public struct ServerLevelData
     public List<StimulusData> stimulusData;
     public List<string> stimiulusGeneralData;
     public int upperLeft,middleLeft,lowerLeft,upperMiddle,middleMiddle,lowerMiddle,upperRight,middleRight,lowerRight;
+    public void ResetCounter()
+    {
+        upperLeft = 0;
+        middleLeft = 0;
+        lowerLeft = 0;
+        upperMiddle = 0;
+        middleMiddle = 0;
+        lowerMiddle = 0;
+        upperRight = 0;
+        middleRight = 0;
+        lowerRight = 0;
+    }
 
 }
 [System.Serializable]
@@ -49,11 +61,22 @@ public struct StimulusData
     public bool wasClickedOn;
     public int tryNumber;
     public string levelDescription;
-    public int upperLeft,middleLeft,lowerLeft,upperMiddle,middleMiddle,lowerMiddle,upperRight,middleRight,lowerRight;
-    public Vector3 gyroScopeData;
-
+    public int upperLeft,middleLeft,lowerLeft,upperMiddle,middleMiddle,lowerMiddle,upperRight,middleRight,lowerRight,starTaps;
+    // A phone call took the audio during this trial, so the child may not have heard
+    // the stimulus. Exclude these rows when scoring.
+    public bool interrupted;
 }
-[SerializeField]
+[System.Serializable]
+public class GyroData
+{
+    public int second;
+    public List<Vector3> acceleration,gyroscope;
+    public void ResetData()
+    {
+        gyroscope = new List<Vector3>();
+        acceleration = new List<Vector3>();
+    }
+}
 public enum StimulusType
 {
     Visual,Auditory

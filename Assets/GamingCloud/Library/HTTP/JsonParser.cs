@@ -9,7 +9,7 @@ namespace gamingCloud
 
     public class JsonParser
     {
-        public static T ConvertDictionaryToSchema<T>(Dictionary<string, dynamic> json)
+        public static T ConvertDictionaryToSchema<T>(Dictionary<string, object> json)
         {
             string stringJson = JsonConvert.SerializeObject(json);
             return JObject.Parse(stringJson).ToObject<T>();

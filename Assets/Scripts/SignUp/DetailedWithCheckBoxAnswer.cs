@@ -13,11 +13,13 @@ public class DetailedWithCheckBoxAnswer : CheckBoxAnswer
     void Start()
     {
         Init();
+
     }
     
     public override void Init()
     {
         base.Init();
+
         toggleAnswers = GetComponentsInChildren<ToggleAnswer>();
         blankBoxes = GetComponentsInChildren<BlankBoxAnswer>();
         for (int i = 0; i < blankBoxes.Length; i++)
@@ -28,18 +30,11 @@ public class DetailedWithCheckBoxAnswer : CheckBoxAnswer
         {
             toggleAnswers[i].checkBoxAnswer = this;
             toggleAnswers[i].index = i;
-            Debug.Log(toggleAnswers[i].index);
             toggleAnswers[i].Init(toggleAnswersStrings[i]);
             toggleAnswers[i].toggle.isOn = false;
         }
-        for (int i = 0; i < toggleAnswers.Length; i++)
-        {
-            toggleAnswers[i].index = i;
-            toggleAnswers[i].toggle.onValueChanged.AddListener
-            (
-                (value)=> Answered(true, toggleAnswers[i].index)
-            );
-        }
+        answer = "  بی پاسخ  ";
+
     }
     public override string GetAnswer()
     {
@@ -48,11 +43,8 @@ public class DetailedWithCheckBoxAnswer : CheckBoxAnswer
         {
             answers += blankBox.GetDetailedAnswer() + "    ";
         }
-        foreach (var toggle in toggleAnswers)
-        {
-            answers += toggle.answer + "    ";
-        }
-        Debug.Log(answers);
+        question +=  "    " + answer + "    ";
+        
         return question += "   " + answers;
 
 

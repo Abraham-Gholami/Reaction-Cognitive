@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using UnityEngine;
 
 namespace gamingCloud
@@ -93,7 +92,7 @@ namespace gamingCloud
             HttpResponseMessage responseMessage = await client.PostAsync(route, content);
             return await convertToResponseServer(responseMessage);
         }
-        async static public Task<ServerResponse> PostRequestAsync(string route, Dictionary<string,dynamic> body)
+        async static public Task<ServerResponse> PostRequestAsync(string route, Dictionary<string,object> body)
         {
             HttpClient client = await Client();
 
@@ -112,7 +111,7 @@ namespace gamingCloud
             HttpResponseMessage responseMessage = await client.PutAsync(route, bodyContent);
             return await convertToResponseServer(responseMessage);
         }
-        async static public Task<ServerResponse> PutRequestAsync(string route, Dictionary<string,dynamic> body)
+        async static public Task<ServerResponse> PutRequestAsync(string route, Dictionary<string,object> body)
         {
             HttpClient client = await Client();
             //var bodyContent = new FormUrlEncodedContent(body);

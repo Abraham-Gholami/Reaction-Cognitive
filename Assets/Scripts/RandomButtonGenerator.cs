@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using TMPro;
 
 public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
@@ -25,9 +26,78 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     public Level level;
     [SerializeField]
     GameObject startGameButton,gameplay;
+    [SerializeField] GameObject videoplayer;
+    [SerializeField] float videoPrepareTimeout = 10f;
+    [SerializeField] float videoOverrunSlack = 3f;
+    bool videoEnded,videoFailed,videoRunning,videoSkipped;
 
+    // Hooked to the Skip button on the video canvas.
+    public void SkipVideo()
+    {
+        if(!videoRunning) return;
+        videoSkipped = true;
+    }
+
+    IEnumerator WaitForVideo()
+    {
+        videoplayer.SetActive(true);
+        var player = videoplayer.GetComponentInChildren<VideoPlayer>(true);
+        if(player == null)
+        {
+            StartGame();
+            yield break;
+        }
+
+        // Play-on-awake starts the clip the instant the object is enabled, before the
+        // decoder has the first frame ready — that is what leaves it stuck on black.
+        // Prepare first, then play, and end on the clip's own event instead of a fixed wait.
+        player.playOnAwake = false;
+        player.Stop();
+        videoEnded = false;
+        videoFailed = false;
+        videoSkipped = false;
+        player.errorReceived += OnVideoError;
+        player.loopPointReached += OnVideoEnded;
+
+        player.Prepare();
+        var prepareDeadline = Time.realtimeSinceStartup + videoPrepareTimeout;
+        while(!player.isPrepared && !videoFailed && !videoSkipped && Time.realtimeSinceStartup < prepareDeadline)
+            yield return null;
+
+        if(player.isPrepared && !videoFailed && !videoSkipped)
+        {
+            player.Play();
+            // Never trap the player on a stalled decoder: give the clip its own length
+            // plus a little slack, then carry on regardless.
+            var playDeadline = Time.realtimeSinceStartup + (float)player.length + videoOverrunSlack;
+            while(!videoEnded && !videoFailed && !videoSkipped && Time.realtimeSinceStartup < playDeadline)
+                yield return null;
+        }
+        else
+        {
+            ScreenDebug.Instance?.Debug("Video was not ready, skipping to the game");
+        }
+
+        player.errorReceived -= OnVideoError;
+        player.loopPointReached -= OnVideoEnded;
+        player.Stop();
+        videoRunning = false;
+        StartGame();
+    }
+
+    void OnVideoEnded(VideoPlayer source)
+    {
+        videoEnded = true;
+    }
+
+    void OnVideoError(VideoPlayer source, string message)
+    {
+        videoFailed = true;
+        ScreenDebug.Instance?.Debug("Video error: " + message);
+    }
     void Start()
     {
+        starButtonSFX.playOnAwake = false;
         gameplay.SetActive(false);
         bubble.gameObject.SetActive(false);
         image = bubble.GetComponent<UnityEngine.UI.Image>();
@@ -35,9 +105,16 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
 
     }
     UnityEngine.UI.Image image;
-
+    public void StartVideoGame()
+    {
+        if(videoRunning) return;
+        videoRunning = true;
+        StartCoroutine(WaitForVideo());
+    }
     public void StartGame()
     {
+        videoplayer.SetActive(false);
+        ReactionManager.Instance.RestServerLevelData();
         ReadLevel(false);
         gameIsPlaying = true;
         startGameButton.SetActive(false);
@@ -50,21 +127,31 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         Invoke("RandomizeButtons",2f);
     }
     bool gameIsPlaying , useTank;
+    public bool GameIsPlaying => gameIsPlaying;
     void RandomizeButtons()
     {
         GetTutorial();
     }
+    bool showed2ndTut;
+    public int numberOfTriesBeforeTutEnd;
     public void OnStartMission()
     {
-        if(tutorialAudioSource.isPlaying) return;
-        if(levelsData.levels[currentLevel].hasSecondTutorial)
+        if(tutorialAudioSource.isPlaying)
+        {
+            numberOfTriesBeforeTutEnd ++;
+            return;
+        }
+        starButtonSFX.Play();
+        if(levelsData.levels[currentLevel].hasSecondTutorial && !showed2ndTut)
         {
             SetUpSecondTutorial();
-            levelsData.levels[currentLevel].hasSecondTutorial = false;
+            showed2ndTut = true;
         }
         else 
         {
-            
+            ReactionManager.Instance.numberOfTriesBeforeTutEnd = numberOfTriesBeforeTutEnd;
+            numberOfTriesBeforeTutEnd = 0;
+            ReactionManager.Instance.progressBar.SliderAnimationState(false);
             ReadLevel(false);
             tutorialPanel.SetActive(false);
             tutorialAudioSource.Stop();
@@ -87,6 +174,7 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     {
         Invoke("SetUpTutorial",3f);
     }
+    [SerializeField] AudioSource starButtonSFX;
     void SetUpMiniTutorial()
     {
         tutorialAudioSource.clip = levelsData.levels[currentLevel].miniTutorialClip;
@@ -102,6 +190,9 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     }
     void SetUpTutorial()
     {
+        ReactionManager.Instance.progressBar.SliderAnimationState(true);
+        UIAnimationController.Instance.ClearCombo();
+        ReactionManager.Instance.ClearCombo();
         tutorialAudioSource.clip = levelsData.levels[currentLevel].tutorialClip;
         tutorialImage.sprite = levelsData.levels[currentLevel].tutorialImage;
         if(!image)
@@ -135,8 +226,7 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     GameObject tutorialPanel,endPanel;
     void ReadLevel(bool waitForTutorial = true)
     {
-        Debug.Log(1);
-        Debug.Log(waitForTutorial);
+        if(currentLevel >= levelsData.levels.Length) return;
         if(levelsData.levels[currentLevel].useTutorial && waitForTutorial)
         {
             needsTutorial = true;
@@ -144,8 +234,6 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
 
             return;
         } 
-        if(currentLevel >= levelsData.levels.Length) return;
-        Debug.Log(2);
         level = levelsData.levels[currentLevel];
         levelDescriptionText.text = level.levelDescription;
         SaveLevelDescription(level.levelDescription);
@@ -154,9 +242,12 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         timeBetweenEachRespawn = level.timeBetweenStimulus;
         translatedStateData = TranslateStateDataToState(level.states);
         SaveLevelDataVariables(level.states);
+        // useTank used to latch true forever once any level set it, leaving the oxygen
+        // bar running through levels that declare useTank: 0.
+        useTank = level.useTank;
+        showed2ndTut = false;
         if(level.useTank)
         {
-            useTank = true;
             ReactionManager.Instance.progressBar.Activate();
         }
         
@@ -188,19 +279,24 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
             stateCounter ++;
 
         }
+        // The level used to be closed out right here — at the LAST trial's ONSET — so
+        // that trial's response landed in the next level's bucket, exported Trial = 0
+        // and sometimes an empty description. Defer it until the response is recorded.
         if(stateCounter >= levelsData.levels[currentLevel].states.Length)
-        {
-            currentLevel ++;
-            ReactionManager.Instance.SaveThisLevelData();
-            ReadLevel();
-            stateCounter = 0;
-            //state = translatedStateData[stateCounter];
-            // goes to next level
+            levelBoundaryPending = true;
+    }
+    bool levelBoundaryPending;
 
-        }
-        
-        
-
+    // Called once the trial's response has been written (bubble deactivated).
+    void AdvanceLevelIfPending()
+    {
+        if(!levelBoundaryPending) return;
+        levelBoundaryPending = false;
+        currentLevel ++;
+        ReactionManager.Instance.SaveThisLevelData();
+        ReadLevel();
+        stateCounter = 0;
+        // goes to next level
     }
     void DisableButtons()
     {
@@ -243,57 +339,112 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         StartCoroutine("StartTest");
         yield return null; 
     }
+    // ---- phone-call / audio-focus interruption ----
+    bool trialInterrupted;
+    public float TrialStartTime { get; private set; }
+
+    // The oxygen bar was hard-coded to 804 seconds while the shipped asset totals far
+    // less, so it could never empty in step with the test. Derive it from the data.
+    public float TotalTrialSeconds()
+    {
+        var total = 0f;
+        if(levelsData == null || levelsData.levels == null) return 1f;
+        foreach(var lvl in levelsData.levels)
+        {
+            if(lvl.states == null) continue;
+            foreach(var s in lvl.states)
+                total += (s.FA || s.SA) ? lvl.otherTime : lvl.timeBetweenStimulus;
+        }
+        return total > 0f ? total : 1f;
+    }
+
+    IEnumerator HoldWhilePaused()
+    {
+        while(CallInterruptionGuard.Paused) yield return null;
+    }
+
+    // Realtime wait that bails out the moment the OS takes our audio, so an audio
+    // stimulus is never left running where the child cannot hear it.
+    IEnumerator TrialWait(float seconds)
+    {
+        var end = Time.realtimeSinceStartup + seconds;
+        while(Time.realtimeSinceStartup < end)
+        {
+            if(CallInterruptionGuard.Paused)
+            {
+                trialInterrupted = true;
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
     IEnumerator StartTest()
     {
-        // starts the test 
+        // never open a trial while the audio belongs to a call
+        yield return HoldWhilePaused();
+        trialInterrupted = false;
+        TrialStartTime = Time.realtimeSinceStartup;
+
+        // Capture THIS trial's modality before BehaviourState advances stateCounter.
+        // Reading it afterwards picked up the NEXT trial's type, so an audio trial
+        // following a visual one (and vice versa) got a response window 400ms wrong.
+        var isAudio = translatedStateData[stateCounter] == 2 || translatedStateData[stateCounter] == 3;
+        var window = isAudio ? level.otherTime : level.timeBetweenStimulus;
+        thisTryTimer = window;
+
         bubble.gameObject.SetActive(true);
         // activates stimulus
         BehaviourState(stateCounter);
         if(needsTutorial) yield return null;
-        if(translatedStateData[stateCounter] == 2 || translatedStateData[stateCounter] == 3)
-        {
-            thisTryTimer = level.otherTime;
-            yield return new WaitForSecondsRealtime(level.otherTime/2);
-        }
-        else 
-        {
-            yield return new WaitForSecondsRealtime(level.timeBetweenStimulus/2);
-            thisTryTimer = level.timeBetweenStimulus;
-        }
+
+        yield return TrialWait(window/2);
         // deactivates stimulus
 
         DisableButtons();
         // waits to deactive bubble
 
-        if(translatedStateData[stateCounter] == 2 || translatedStateData[stateCounter] == 3)
-        {
-            thisTryTimer = level.otherTime;
-            yield return new WaitForSecondsRealtime(level.otherTime/2);
-        }
-        else 
-        {
-            yield return new WaitForSecondsRealtime(level.timeBetweenStimulus/2);
-            thisTryTimer = level.timeBetweenStimulus;
-        }
+        if(!trialInterrupted) yield return TrialWait(window/2);
         // deactives bubble
 
         bubble.gameObject.SetActive(false);
+        // the response for this trial is now recorded, so it is safe to close the level
+        AdvanceLevelIfPending();
+
+        // A call took the audio during this trial. The row has already been written and
+        // flagged Interrupted, so do NOT re-present it: rolling stateCounter back cannot
+        // restore the level state BehaviourState may have advanced, and doing so skipped
+        // whole levels. Wait for the operator, then carry on with the next trial.
+        if(trialInterrupted)
+        {
+            yield return HoldWhilePaused();
+            yield return new WaitForSecondsRealtime(1f);
+            trialInterrupted = false;
+        }
+
         // waits to start process bubble
         yield return new WaitForSeconds(.1f);
+        if(currentLevel >= levelsData.levels.Length)
+        {
+            Debug.Log("End");
+            yield return EndProcess();
+             
+        }
         // if can proceed starts if not it stops
-        if(!needsTutorial && stateCounter < levelsData.levels[currentLevel].states.Length && currentLevel < levelsData.levels.Length)
+        else if(!needsTutorial && stateCounter < levelsData.levels[currentLevel].states.Length && currentLevel < levelsData.levels.Length)
         {
             StartCoroutine("StartTest");
         }
-        else if(currentLevel >= levelsData.levels.Length)
-        {
-            Debug.Log("End");
-            endPanel.SetActive(true);
-            yield return null; 
-        }
-        
-        
 
+    }
+    [SerializeField]
+    AudioSource endAudio;
+    IEnumerator EndProcess()
+    {
+        UIAnimationController.Instance.ClearCombo();
+        endAudio.Play();
+        yield return new WaitForSeconds(6);
+        endPanel.SetActive(true);
     }
     int [] TranslateStateDataToState(StateData [] stateDatas)
     {
@@ -311,8 +462,12 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
                 tempStateData.Add(3);
             else 
             {
-                Debug.LogError("Corrupted Level Data Check Out State Data at " + i + "Of this Level");
-                break;
+                // Used to `break`, returning a SHORTER array than states.Length while every
+                // bounds check still used states.Length — so one bad entry meant an
+                // IndexOutOfRangeException mid-session and a dead trial loop. Keep the
+                // array aligned and make the bad entry loud instead.
+                Debug.LogError("Corrupted Level Data Check Out State Data at " + i + " Of this Level");
+                tempStateData.Add(0);
             }
                 
         }
@@ -349,6 +504,7 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         SaveThisStimulusData("useBothFish",useBothFish.ToArray());
         SaveThisStimulusData("useBothShark",useBothShark.ToArray());
     }
+
     public void SaveThisStimulusData(string stimulusDescription,int [] stimulusData)
     {
         string data = "This Level Has "  + stimulusData.Length + " of type " + stimulusDescription;
@@ -359,4 +515,8 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         ReactionManager.Instance.RecevieLevelDescription(levelDescription);
 
     }
+}
+public enum GameStates
+{
+    WarmUp,CoreGamePlay,CoolDown
 }

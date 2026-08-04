@@ -34,17 +34,30 @@ public class ProgressBar : MonoBehaviour
             animateProgressBarNow = false;
         }
     }
+    [SerializeField] GameObject bubble;
     void AnimateProgressBarBackward()
     {
         if(slider.value > 0)
+        {
+            Debug.Log(1);
             slider.value -= Time.deltaTime;
-        if(slider.value <= 0)
+        }
+        else if(slider.value <= 0)
+        {
+            bubble.SetActive(false);
             animateProgressBarNow = false;
-    }
 
+        }
+        
+    }
+    bool playAnimation;
+    public void SliderAnimationState(bool stop)
+    {
+        playAnimation = !stop;
+    }
     void Update() 
     {
-        if(animateProgressBar && animateProgressBarNow )
+        if(animateProgressBar && animateProgressBarNow)
             switch (type)
             {
                 case AnimateType.Forward:
@@ -57,7 +70,7 @@ public class ProgressBar : MonoBehaviour
     }
     bool animateProgressBar 
     {
-        get => RandomButtonGenerator.Instance.gameIsRunning;
+        get => RandomButtonGenerator.Instance.gameIsRunning && playAnimation;
     }
     public void SetMaxFill(float seconds)
     {
@@ -78,7 +91,9 @@ public class ProgressBar : MonoBehaviour
     }
     private void OnDestroy() 
     {
-        SettingsManager.Instance.settingPageClosed -= OnSettingMenuClosed;
+        // Never resurrect the settings singleton during teardown just to unsubscribe.
+        var settings = SettingsManager.Instance;
+        if (settings != null) settings.settingPageClosed -= OnSettingMenuClosed;
     }
 }
 public enum AnimateType

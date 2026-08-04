@@ -26,7 +26,9 @@ public class BubbleController : MonoBehaviour
     }
     private void OnDestroy() 
     {
-        SettingsManager.Instance.settingPageClosed -= OnSettingMenuClosed;
+        // Never resurrect the settings singleton during teardown just to unsubscribe.
+        var settings = SettingsManager.Instance;
+        if (settings != null) settings.settingPageClosed -= OnSettingMenuClosed;
     }
 
 }

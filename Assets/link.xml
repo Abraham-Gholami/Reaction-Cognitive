@@ -1,0 +1,5 @@
+<linker>
+  <!-- Newtonsoft.Json deserializes GamingCloud server payloads via reflection;
+       keep it intact under IL2CPP managed stripping. -->
+  <assembly fullname="Newtonsoft.Json" preserve="all" />
+</linker>

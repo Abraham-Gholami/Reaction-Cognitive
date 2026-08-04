@@ -22,15 +22,15 @@ namespace gamingCloud.Network
 
         public Role role;
 
-        // Dictionary<string, dynamic> _model;
+        // Dictionary<string, object> _model;
 
-        // public Dictionary<string, dynamic> model
+        // public Dictionary<string, object> model
         // {
         //     set { return; }
         //     get { return _model; }
         // }
 
-        public PlayerModel(/* Dictionary<string, dynamic> model,  */string netId, string name , Role role)
+        public PlayerModel(/* Dictionary<string, object> model,  */string netId, string name , Role role)
         {
             this.netId = netId;
             this.name = name;

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 using System.Text;
+using UnityEngine.UI;
 using Newtonsoft.Json;
 public class UserCreator : GenericSingleton<UserCreator> {
 	
-	private const string url = "https://gamesdata.cognitivetests.ir/Users";
-	///private const string AppId = "0058aada-1bd1-4171-b993-d328a33a3bfd";
-	string AppId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
+	private const string url = "http://gamesdata.cognitivetests.ir/Users";
+	string appId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
 	public string userid;
 	public bool isRegistered;
 	ApiUser myobj;
@@ -17,13 +19,12 @@ public class UserCreator : GenericSingleton<UserCreator> {
 		myobj = new ApiUser ();
 		var newGuid = System.Guid.NewGuid();
 		userid = newGuid.ToString();
-		myobj.id = userid;
-		myobj.userName = userid;
+		myobj.id = userid.ToString();
+		myobj.userName = userid.ToString();
 		myobj.password =  System.Guid.NewGuid().ToString();
 		isRegistered = false;
-		myobj.appId = AppId;
+		myobj.appId = appId;
 		string json =  JsonConvert.SerializeObject(myobj);
-
 		Debug.Log(json);
 		StartCoroutine(PostWithJSON(url, json));
     }
@@ -32,49 +33,23 @@ public class UserCreator : GenericSingleton<UserCreator> {
 	{
 		ScreenDebug.Instance.Debug("ApiUser Created");
 
-		if (string.IsNullOrEmpty(bodyJsonString))
-		{
-			ScreenDebug.Instance?.Debug("Error: JSON body is empty.");
-			yield break;
-		}
-
-		// Log JSON body
-		ScreenDebug.Instance.Debug("JSON Body: " + bodyJsonString);
-
-		// Create a new UnityWebRequest
-		var request = new UnityWebRequest(url, "POST");
-    
-		// Convert the JSON string to bytes and assign it to the upload handler
-		byte[] bodyRaw = Encoding.UTF8.GetBytes(bodyJsonString);
-		request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-		request.downloadHandler = new DownloadHandlerBuffer();
-    
-		// Set the content type header to application/json
-		request.SetRequestHeader("Content-Type", "application/json");
-
-		// Log raw request data for debugging
-		ScreenDebug.Instance.Debug("Raw Request Data: " + System.Text.Encoding.UTF8.GetString(bodyRaw));
-
-		// Send the request
+		var request = new UnityWebRequest (url, "POST");
+		byte[] bodyRaw = Encoding.UTF8.GetBytes (bodyJsonString);
+		request.uploadHandler = (UploadHandler)new UploadHandlerRaw (bodyRaw);
+		request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer ();
+		request.SetRequestHeader ("Content-Type", "text/json");
 		yield return request.SendWebRequest();
-
-		// Log the status code and response
-		ScreenDebug.Instance?.Debug("Status Code: " + request.responseCode);
-		ScreenDebug.Instance?.Debug("Response: " + request.downloadHandler.text);
-
+		ScreenDebug.Instance?.Debug ("Status Code: " + request.responseCode);
 		if (request.result == UnityWebRequest.Result.Success)
-		{
-			isRegistered = true;
-		}
+        {
+            isRegistered = true;
+
+        }
 		else 
 		{
-			ScreenDebug.Instance?.Debug("Error: " + request.error);
-			Debug.Log(request.downloadHandler.text);
+			ScreenDebug.Instance?.Debug ("Error : " + request.error);
 		}
 	}
-
-
-
 	IEnumerator  PostWithForm(ApiUser user ,string url, string bodyJsonString)
     {
 		ScreenDebug.Instance?.Debug("PostWithForm Created");
@@ -94,7 +69,7 @@ public class UserCreator : GenericSingleton<UserCreator> {
 		www.SetRequestHeader("Content-Type", "application/json");
         www.uploadHandler = uploadHandlerRaw;
         yield return www.SendWebRequest();
-        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError || www.result == UnityWebRequest.Result.DataProcessingError)
+        if (www.result != UnityWebRequest.Result.Success)
             ScreenDebug.Instance?.Debug(www.error);
         else
             ScreenDebug.Instance?.Debug("Form upload complete!");

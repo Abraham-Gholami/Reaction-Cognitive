@@ -7,13 +7,14 @@ public class AnswerBase : MonoBehaviour
     public RTLTextMeshPro questionText;
     public virtual void Init()
     {
+        answer = "  بی پاسخ  ";
         questionText.text = question;
     }
     public string question;
     public string answer;
     public virtual string GetAnswer()
     {
-        return  answer + "    " + question;
+        return  question + "    " + answer;
     }
 
 

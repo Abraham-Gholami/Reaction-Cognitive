@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using UnityEngine.Networking;
 using System.Reflection;
 using System.Linq;
-using System.Management.Instrumentation;
 using gamingCloud.templates;
 
 namespace gamingCloud.Network
@@ -456,7 +455,7 @@ namespace gamingCloud.Network
 			}
 			eventSender event_sender = new eventSender();
 			event_sender.eventName = "AnimationResult";
-			event_sender.body = JsonConvert.SerializeObject(new Dictionary<string, dynamic>()
+			event_sender.body = JsonConvert.SerializeObject(new Dictionary<string, object>()
 				{
 					{"value",value},
 				});
@@ -688,7 +687,7 @@ namespace gamingCloud.Network
 		#region Save Data on Room
 		public void SaveDataOnRoom<T>(string key, T value)
 		{
-			Dictionary<string, dynamic> body = new Dictionary<string, dynamic>();
+			Dictionary<string, object> body = new Dictionary<string, object>();
 			body.Add("key", key);
 			body.Add("value", value);
 
@@ -985,7 +984,7 @@ namespace gamingCloud.Network
 
 		private void ResponseFriendRequest(bool isAccept, string RequestId)
 		{
-			sendPacket("friend-request-response", PlayerInfo.netId, JsonConvert.SerializeObject(new Dictionary<string, dynamic>()
+			sendPacket("friend-request-response", PlayerInfo.netId, JsonConvert.SerializeObject(new Dictionary<string, object>()
 				{
 					{"status",(isAccept)?1:0},
 					{"id",RequestId},

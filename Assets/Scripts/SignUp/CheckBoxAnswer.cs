@@ -11,25 +11,26 @@ public class CheckBoxAnswer : AnswerBase
     void Start()
     {
         Init();
-        
     }
     public override void Init()
     {
         base.Init();
+
         toggleAnswers = GetComponentsInChildren<ToggleAnswer>(true);
         for (int i = 0; i < toggleAnswers.Length; i++)
         {
             toggleAnswers[i].checkBoxAnswer = this;
             toggleAnswers[i].index = i;
-            Debug.Log(toggleAnswers[i].index);
             toggleAnswers[i].Init(toggleAnswersStrings[i]);
             toggleAnswers[i].toggle.isOn = false;
         }
+
     }
     public override string GetAnswer()
     {
         return  question + "    " + answer;
     }
+
     public void Answered(bool active ,int toggleIndex)
     {
         for (int i = 0; i < toggleAnswers.Length; i++)
@@ -44,7 +45,9 @@ public class CheckBoxAnswer : AnswerBase
 
             }
         }
-        answer = toggleAnswers[toggleIndex].answer;
+        if(active)
+            answer = toggleAnswers[toggleIndex].answer;
+        else answer = "  بی پاسخ  ";
     }
 
 }

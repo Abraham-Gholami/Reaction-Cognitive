@@ -125,7 +125,7 @@ MonoBehaviour:
     miniTutorialClip: {fileID: 0}
     tutorialClip2: {fileID: 8300000, guid: ec2eff0d6f9274e42b860488ab20d362, type: 3}
     tutorialImage: {fileID: 21300000, guid: 7daa5fdf2ff655b48933eb79ff9215b9, type: 3}
-    tutorialImage2: {fileID: 21300000, guid: 435bfb29b1edd594197240dee32ba7e3, type: 3}
+    tutorialImage2: {fileID: 21300000, guid: 2be51a29c1b3d3b418083751444d2486, type: 3}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
     useTank: 0
@@ -707,11 +707,11 @@ MonoBehaviour:
     tutorialClip: {fileID: 0}
     miniTutorialClip: {fileID: 0}
     tutorialClip2: {fileID: 0}
-    tutorialImage: {fileID: 21300000, guid: f5f1e7eacf9d44044a4c93766632bbb6, type: 3}
+    tutorialImage: {fileID: 21300000, guid: 81b3250a888b15140ac2f8ae84a458f7, type: 3}
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -929,7 +929,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1147,7 +1147,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1365,7 +1365,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1583,7 +1583,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1801,7 +1801,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -2019,7 +2019,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -2077,7 +2077,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -2135,4 +2135,4 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 1
+    useTank: 0

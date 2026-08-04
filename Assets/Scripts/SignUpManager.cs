@@ -67,13 +67,18 @@ public class SignUpManager : MonoBehaviour
     }
     async void  WriteString()
     {
-        #if UNITY_EDITOR
-            var folder = Application.streamingAssetsPath;
+        var folder = "";
+        var filePath = "";
+        #if UNITY_ANDROID
+            folder = Application.streamingAssetsPath;
+            filePath = Path.Combine(folder, "signup.txt");
             if(! Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            if(Directory.Exists(filePath)) Directory.Delete(filePath);
         #else
-            var folder = Application.persistentDataPath;
+            folder = Application.persistentDataPath;
+            filePath = Path.Combine(folder, "signup.txt");
+            if(File.Exists(filePath)) File.Delete(filePath);
         #endif
-        var filePath = Path.Combine(folder, "SignUp.text");
         StreamWriter writer = new StreamWriter(filePath, true);
         foreach (var item in questionnaires)
         {

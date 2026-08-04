@@ -7,6 +7,6 @@ namespace gamingCloud.templates
     public class LeaderBoard
     {
         public int pages;
-        public List<Dictionary<string, dynamic>> players;
+        public List<Dictionary<string, object>> players;
     }
 }

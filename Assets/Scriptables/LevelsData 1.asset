@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e37a95e5debfd945bc6e79033e5a037, type: 3}
+  m_Name: LevelsData 1
+  m_EditorClassIdentifier: 
+  levels:
+  - visualTimer: 0.2
+    audioTimer: 0.6
+    timeBetweenStimulus: 2
+    otherTime: 1.6
+    states:
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    - FV: 1
+      FA: 0
+      SV: 0
+      SA: 0
+    levelDescription: WarmUp1
+    useDifferentSpawnTime: 1
+    useTutorial: 1
+    isTraining: 0
+    hasSecondTutorial: 1
+    tutorialClip: {fileID: 8300000, guid: 4d4150d79ec3e954ea06b7ab1737f3a7, type: 3}
+    miniTutorialClip: {fileID: 0}
+    tutorialClip2: {fileID: 8300000, guid: ec2eff0d6f9274e42b860488ab20d362, type: 3}
+    tutorialImage: {fileID: 21300000, guid: 5aad6d43c5847c545ab048c903e1c3e4, type: 3}
+    tutorialImage2: {fileID: 21300000, guid: b85d724a1b08c244d851affc3521f330, type: 3}
+    miniTutorialImage: {fileID: 0}
+    bubbleImage: {fileID: 0}
+    useTank: 0

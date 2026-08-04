@@ -7,10 +7,10 @@ namespace gamingCloud.templates
     public class PlayerStorageResponseJson
     {
         public RestfulMessages status = RestfulMessages.successful;
-        public Dictionary<string, dynamic> value;
+        public Dictionary<string, object> value;
         public bool isSuccessful = true;
 
-        public PlayerStorageResponseJson(bool isSuccessful, int status, Dictionary<string, dynamic> value = null)
+        public PlayerStorageResponseJson(bool isSuccessful, int status, Dictionary<string, object> value = null)
         {
             if (isSuccessful)
                 this.value = value;
