@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 // Skips the intro story video. Lives on a button under the video canvas, so it is
 // only on screen while the video plays.
+//
+// Deliberately icon-only: an earlier text version rendered nothing at all, first
+// because the cloned label inherited a digits-only font atlas and then because the
+// TMP mesh was never rebuilt. A plain sprite has no font asset, no atlas and no mesh
+// regeneration to go wrong.
 //
 // The button lays itself out rather than relying on serialized RectTransform values,
 // so it stays put in the bottom corner whatever the aspect ratio, and wires its own
@@ -12,8 +16,7 @@ using TMPro;
 [RequireComponent(typeof(Button))]
 public class VideoSkipButton : MonoBehaviour
 {
-    [SerializeField] string caption = "رد کردن";
-    [SerializeField] Vector2 size = new Vector2(300f, 120f);
+    [SerializeField] Vector2 size = new Vector2(150f, 160f);
     [SerializeField] Vector2 margin = new Vector2(60f, 80f);
 
     void OnEnable()
@@ -52,41 +55,12 @@ public class VideoSkipButton : MonoBehaviour
                 t.gameObject.layer = layer;
         }
 
-        // bottom-right corner of the video canvas
+        // bottom-right corner of the video image
         rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(1f, 0f);
         rt.sizeDelta = size;
         rt.anchoredPosition = new Vector2(-margin.x, margin.y);
         rt.localScale = Vector3.one;
         rt.localRotation = Quaternion.identity;
-
-        var label = GetComponentInChildren<TMP_Text>(true);
-        if (label == null) return;
-
-        var lrt = label.rectTransform;
-        lrt.anchorMin = Vector2.zero;
-        lrt.anchorMax = Vector2.one;
-        lrt.offsetMin = Vector2.zero;
-        lrt.offsetMax = Vector2.zero;
-        lrt.localScale = Vector3.one;
-        lrt.localRotation = Quaternion.identity;
-
-        // Assigning through TMP_Text still reaches RTLTextMeshPro's overridden setter,
-        // so the Persian caption gets shaped and reordered correctly.
-        if (label.text != caption) label.text = caption;
-        label.alignment = TextAlignmentOptions.Center;
-
-        // RTLTextMeshPro's text setter early-returns when the string is unchanged, so
-        // after the font asset was swapped nothing ever rebuilt the mesh and the label
-        // stayed blank while every inspector value looked correct. Rebuild explicitly.
-        label.SetAllDirty();
-        label.ForceMeshUpdate(true, true);
-
-        // The counters' font (Lalezar) ships a static, digits-only atlas, so a Persian
-        // caption on it renders as nothing at all — a silent blank button. Say so loudly
-        // rather than leaving someone to wonder why the label is invisible.
-        if (label.font != null && !label.font.HasCharacters(caption))
-            Debug.LogWarning("VideoSkipButton: font '" + label.font.name +
-                             "' has no glyphs for \"" + caption + "\" - the label will be blank.");
     }
 
     void Skip()
