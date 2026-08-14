@@ -443,7 +443,12 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     {
         UIAnimationController.Instance.ClearCombo();
         endAudio.Play();
-        yield return new WaitForSeconds(6);
+        // Wait for the thank-you voice-over to actually finish rather than a hard-coded
+        // 6s guess, so the medal/star panel and its crowd-cheering clip land on its end.
+        var wait = 6f;
+        if(endAudio != null && endAudio.clip != null)
+            wait = endAudio.clip.length;
+        yield return new WaitForSeconds(wait);
         endPanel.SetActive(true);
     }
     int [] TranslateStateDataToState(StateData [] stateDatas)

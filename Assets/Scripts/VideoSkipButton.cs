@@ -26,8 +26,14 @@ public class VideoSkipButton : MonoBehaviour
 
     void Awake()
     {
-        if (Application.isPlaying)
-            GetComponent<Button>().onClick.AddListener(Skip);
+        if (!Application.isPlaying) return;
+#if UNITY_EDITOR
+        GetComponent<Button>().onClick.AddListener(Skip);
+#else
+        // Editor-only convenience: children must sit through the intro story, so the
+        // skip button must not exist in a build.
+        gameObject.SetActive(false);
+#endif
     }
 
 #if UNITY_EDITOR
