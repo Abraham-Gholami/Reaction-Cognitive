@@ -39,7 +39,7 @@ public class ProgressBar : MonoBehaviour
     {
         if(slider.value > 0)
         {
-            Debug.Log(1);
+            // (was Debug.Log(1) here - it fired every frame for the whole test)
             slider.value -= Time.deltaTime;
         }
         else if(slider.value <= 0)
