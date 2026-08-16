@@ -10,6 +10,11 @@ public class ProgressBar : MonoBehaviour
     [SerializeField]
     Slider slider;
     [SerializeField] int sliderMaxValue;
+    // The oxygen tank is drawn as a full (yellow) capsule laid exactly over an empty
+    // (olive) one, revealed by Image.fillAmount. Driving fillAmount rather than letting
+    // the Slider resize the fill rect keeps the artwork undistorted - a resized rect
+    // squashes the capsule instead of emptying it.
+    [SerializeField] Image fillImage;
     // Start is called before the first frame update
     int fill;
     private void Awake() 
@@ -55,8 +60,16 @@ public class ProgressBar : MonoBehaviour
     {
         playAnimation = !stop;
     }
-    void Update() 
+    void SyncFill()
     {
+        if(fillImage == null || slider == null) return;
+        var range = slider.maxValue - slider.minValue;
+        fillImage.fillAmount = range > 0f ? Mathf.Clamp01((slider.value - slider.minValue) / range) : 0f;
+    }
+
+    void Update()
+    {
+        SyncFill();
         if(animateProgressBar && animateProgressBarNow)
             switch (type)
             {

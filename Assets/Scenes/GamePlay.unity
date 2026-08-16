@@ -11924,9 +11924,9 @@ RectTransform:
   m_Father: {fileID: 1990844380}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
-  m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5.000061, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchorMax: {x: 0, y: 0.25}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1880, y: 448}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &350712494
 GameObject:
@@ -20755,7 +20755,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 0, y: 0.25}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1880, y: 417}
+  m_SizeDelta: {x: 1880, y: 448}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &818402000
 MonoBehaviour:
@@ -20777,7 +20777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 86988883b1fd94d4c91d599273e45cf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ba4e7085139e0450e9d0c29abbf508b2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -30047,6 +30047,7 @@ MonoBehaviour:
   type: 1
   slider: {fileID: 1990844381}
   sliderMaxValue: 50
+  fillImage: {fileID: 1825495151}
   bubble: {fileID: 83077420}
 --- !u!1 &1492425003
 GameObject:
@@ -32386,8 +32387,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -452.48032, y: -65.485}
-  m_SizeDelta: {x: 601.24, y: 284.63}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1825495151
 MonoBehaviour:
@@ -32409,8 +32410,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3672070446386897398, guid: fec56dfc933e0eb48b6bec7affd2a2f9, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: 89010d9aca6b44a1fb7de80b0718af41, type: 3}
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
@@ -33992,7 +33993,7 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 0
   m_TargetGraphic: {fileID: 1825495151}
-  m_FillRect: {fileID: 1825495150}
+  m_FillRect: {fileID: 0}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
