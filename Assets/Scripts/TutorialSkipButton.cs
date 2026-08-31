@@ -15,10 +15,14 @@ using UnityEngine.UI;
 // Update keeps running and can turn it back on when the next panel appears.
 [ExecuteAlways]
 [RequireComponent(typeof(Button))]
+[RequireComponent(typeof(Canvas))]
+[RequireComponent(typeof(UnityEngine.UI.GraphicRaycaster))]
 public class TutorialSkipButton : MonoBehaviour
 {
     [SerializeField] Vector2 size = new Vector2(150f, 160f);
     [SerializeField] Vector2 margin = new Vector2(60f, 80f);
+    // Must beat TutorialImage's nested canvas (14) and stay under UploadPanel's (200).
+    [SerializeField] int sortingOrder = 15;
 
     Button button;
     Graphic icon;
@@ -79,21 +83,34 @@ public class TutorialSkipButton : MonoBehaviour
         var rt = transform as RectTransform;
         if (rt == null) return;
 
-        // Inherit the canvas layer: an object left on Default is silently culled by a
-        // camera whose mask covers only the canvas layer - present in the hierarchy,
-        // drawn nowhere. This cost four rounds of debugging on the video button.
-        var canvas = GetComponentInParent<Canvas>();
-        if (canvas != null)
+        // Inherit the parent canvas's layer: an object left on Default is silently
+        // culled by a camera whose mask covers only the canvas layer - present in the
+        // hierarchy, drawn nowhere. Searched from the parent, since this object now
+        // carries a Canvas of its own.
+        var parentCanvas = transform.parent != null
+            ? transform.parent.GetComponentInParent<Canvas>()
+            : null;
+        if (parentCanvas != null)
         {
-            var layer = canvas.gameObject.layer;
+            var layer = parentCanvas.gameObject.layer;
             gameObject.layer = layer;
             foreach (var t in GetComponentsInChildren<Transform>(true))
                 t.gameObject.layer = layer;
         }
 
-        // Last sibling of the canvas, so it is both drawn over the tutorial panel and
-        // first in the raycast order - uGUI hit-tests in draw order.
+        // Sibling order is not enough. TutorialImage carries its own Canvas with
+        // overrideSorting and sortingOrder 14, which puts it above everything on the
+        // root canvas (order 10) for hit-testing no matter where this button sits in
+        // the hierarchy - so the panel swallowed every click while the arrow still drew
+        // on top, because the panel sprite is transparent in that corner and an Image
+        // hit-tests its whole rect regardless of alpha. Own canvas, higher order.
         rt.SetAsLastSibling();
+        var own = GetComponent<Canvas>();
+        if (own != null)
+        {
+            own.overrideSorting = true;
+            own.sortingOrder = sortingOrder;
+        }
 
         // bottom-right corner, matching the video skip button
         rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(1f, 0f);
