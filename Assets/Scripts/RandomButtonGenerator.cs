@@ -169,12 +169,20 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     }
     void StartWiths()
     {
+        // Invoke("StartWiths") is not cancelled by StopCoroutine, so a pending call can
+        // land on a loop that is already running. Two StartTest coroutines share one
+        // bubble: both call SetActive(true), only the first SetActive(false) fires
+        // OnDisable, and the second trial is never written. Guarantee a single loop.
+        StopCoroutine("StartTest");
         StartCoroutine("RandomizeButtonsCR");
 
     }
     public void StopCR()
     {
-        StopAllCoroutines();
+        // Was StopAllCoroutines, which also killed EndProcess, WaitForVideo and the
+        // pause holds - anything else in flight on this object. Only the trial loop
+        // should stop for the mini tutorial.
+        StopCoroutine("StartTest");
         SetUpMiniTutorial();
     }
     Sprite defualtBubbleSprite;
@@ -311,6 +319,7 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
             state = translatedStateData[stateCounter];
             State(state);
             stateCounter ++;
+            trialsPresented ++;
 
         }
         // The level used to be closed out right here — at the LAST trial's ONSET — so
@@ -320,6 +329,20 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
             levelBoundaryPending = true;
     }
     bool levelBoundaryPending;
+
+    // A row reaches the export only as a side effect of Bubble.OnDisable, so the count
+    // is whatever the bubble's active/inactive cycles happened to be rather than the
+    // number of trials actually run. These two let CSVBuilder say so out loud.
+    int trialsPresented;
+    public int TrialsPresented => trialsPresented;
+    public int ExpectedTrials()
+    {
+        var total = 0;
+        if(levelsData == null || levelsData.levels == null) return 0;
+        foreach(var lvl in levelsData.levels)
+            if(lvl.states != null) total += lvl.states.Length;
+        return total;
+    }
 
     // Called once the trial's response has been written (bubble deactivated).
     void AdvanceLevelIfPending()
@@ -430,6 +453,13 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         var isAudio = translatedStateData[stateCounter] == 2 || translatedStateData[stateCounter] == 3;
         var window = isAudio ? level.otherTime : level.timeBetweenStimulus;
         thisTryTimer = window;
+
+        // If the previous trial's coroutine was killed between SetActive(true) and
+        // SetActive(false) the bubble is still up, and SetActive(true) below would be a
+        // no-op: no OnEnable, no timer reset, and when it finally closes ONE row covers
+        // TWO trials. Close the orphan first so its row is written.
+        if(bubble.gameObject.activeSelf)
+            bubble.gameObject.SetActive(false);
 
         bubble.gameObject.SetActive(true);
         // activates stimulus

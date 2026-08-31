@@ -29935,6 +29935,7 @@ GameObject:
   - component: {fileID: 1462284338}
   - component: {fileID: 1462284342}
   - component: {fileID: 1462284343}
+  - component: {fileID: 770200000}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -35273,6 +35274,20 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &770200000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462284337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e19b47c8a2d40f3ab6d71e29c4f8035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PanelExclusivity
+  panelsRoot: {fileID: 1964830483}
+  panelsRootName: Panels
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

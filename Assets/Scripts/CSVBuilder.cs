@@ -31,7 +31,26 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
         .Append(N(data.lowerMiddle)).Append(space).Append(N(data.upperRight)).Append(space).Append(N(data.middleRight)).Append(space).Append(N(data.lowerRight)).Append(space).Append(N(data.starTaps))
         .Append(space).Append(data.interrupted ? "1" : "0");
         allData = sb.ToString();
+        rowsWritten ++;
         AutoSave();
+    }
+    // The export is supposed to carry one row per trial - 472 for the shipped level
+    // data. Say so in the log at upload time rather than leaving a short file to be
+    // noticed weeks later on the server.
+    int rowsWritten;
+    public int RowsWritten => rowsWritten;
+    void ReportRowCount()
+    {
+        var generator = RandomButtonGenerator.Instance;
+        if(generator == null) return;
+        var expected = generator.ExpectedTrials();
+        var presented = generator.TrialsPresented;
+        var line = $"Export rows={rowsWritten} presented={presented} expected={expected}";
+        if(rowsWritten == expected && presented == expected)
+            Debug.Log(line);
+        else
+            Debug.LogError(line + "  <-- MISMATCH");
+        ScreenDebug.Instance?.Debug(line);
     }
     float timerType;
     string GetType(StateData data)
@@ -102,6 +121,7 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             return;
         }
         panel.SetActive(true);
+        ReportRowCount();
         Action<bool> onComplete = new Action<bool>
         (
             (value) => MainDataResult(value)

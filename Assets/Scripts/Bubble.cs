@@ -52,6 +52,12 @@ public class Bubble : MonoBehaviour
         ReactionManager.Instance.bubbleController.BurstBubble();
     }
     private void OnDisable() {
+        // RandomButtonGenerator.Awake and scene teardown both deactivate this object.
+        // Awake ordering between it and ReactionManager is undefined, so that first
+        // SetActive(false) sometimes wrote a phantom trial row and sometimes did not.
+        // Only a bubble closed during an actual test is a trial.
+        var generator = RandomButtonGenerator.Instance;
+        if(generator == null || !generator.GameIsPlaying) return;
         SaveStimulusData();
     }
 }

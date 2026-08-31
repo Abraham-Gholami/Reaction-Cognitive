@@ -154,6 +154,7 @@
     <Compile Include="Assets/GamingCloud/Library/UnityMainThreadDispatcher.cs" />
     <Compile Include="Assets/Scripts/DataSender.cs" />
     <Compile Include="Assets/GamingCloud/Json Templates/PlayerStorageResponse.cs" />
+    <Compile Include="Assets/Scripts/PanelExclusivity.cs" />
     <Compile Include="Assets/Scripts/SendJSONToServer.cs" />
     <Compile Include="Assets/GamingCloud/Library/MultiPlayer/models/ChangeScoreMode.cs" />
     <Compile Include="Assets/Scripts/CSVBuilder.cs" />
