@@ -33921,6 +33921,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 991827340}
   - component: {fileID: 1990844380}
   - component: {fileID: 1990844381}
   m_Layer: 5
@@ -33929,7 +33930,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1990844380
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35092,3 +35093,19 @@ SceneRoots:
   - {fileID: 1220802835}
   - {fileID: 1798943571}
   - {fileID: 9740014}
+
+--- !u!114 &991827340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990844379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5c9d1e4b3f24c0a8e6f1d2c3b4a596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  run: 1
+  secondsToEmpty: 6
+  fill: {fileID: 1825495151}
