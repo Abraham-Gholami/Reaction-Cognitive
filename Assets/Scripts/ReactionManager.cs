@@ -225,6 +225,9 @@ public class ReactionManager : GenericSingleton<ReactionManager>
            sharkCounter ++;
            UIAnimationController.Instance.Animate(false,sharkHolder.position);
        }
+       // Every outcome, including the correct reject that matches none of the branches
+       // above: the number on screen is posCounter, or nothing when the combo is broken.
+       UIAnimationController.Instance.ShowCombo(posCounter);
     }
     public void UpdateText()
     {

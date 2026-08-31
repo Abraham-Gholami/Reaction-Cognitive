@@ -36,11 +36,24 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
         fishGO.gameObject.SetActive(false);
         return fishGO.gameObject;
     }
+    // Fish left one after another 0.2s apart, so a five-fish combo needed
+    // duration + 5*0.2 = 1.73s to finish. Consecutive trials resolve about 1.7s apart
+    // on an audio block (otherTime 1.6), so the sweep at the top of the next call
+    // DOCompleted the tail of the batch and the child saw four fish for an x5, not
+    // five. Spread the batch over a fixed budget instead, so however many fish a combo
+    // releases they all fly and land inside the shortest gap between two trials.
+    [SerializeField] float batchSpread = 0.5f;
+    float StaggerFor(int howMany)
+    {
+        return howMany <= 1 ? 0f : batchSpread / howMany;
+    }
+
     public void AnimateFish(int howMany,Vector3 goal)
     {
         if(howMany <= 0) return;
         var startingPos = fish.transform.position;
         var released = 0;
+        var stagger = StaggerFor(howMany);
         // Trials can be as little as ~1.1s apart while the last fish of a batch is
         // airborne for ~1.7s, so leftovers would be counted as part of this release.
         // Land them first — DOComplete runs their OnComplete, which hides them and
@@ -55,7 +68,7 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
         {
             if(fishList[i].activeSelf) continue;
             released ++;
-            ReleaseFish(fishList[i],startingPos,goal,released);
+            ReleaseFish(fishList[i],startingPos,goal,released,stagger);
         }
         // The whole pool is still airborne from an earlier combo, so add to it rather
         // than recycling a fish mid-flight and losing it from the count.
@@ -64,15 +77,15 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
             var extra = NewFish();
             fishList.Add(extra);
             released ++;
-            ReleaseFish(extra,startingPos,goal,released);
+            ReleaseFish(extra,startingPos,goal,released,stagger);
         }
     }
-    void ReleaseFish(GameObject item,Vector3 startingPos,Vector3 goal,int order)
+    void ReleaseFish(GameObject item,Vector3 startingPos,Vector3 goal,int order,float stagger)
     {
         item.transform.DOKill();
         item.transform.position = startingPos;
         item.SetActive(true);
-        item.transform.DOMove(goal,duration + order * 0.2f).OnComplete(()=> SetBackAnimTransform(startingPos,item));
+        item.transform.DOMove(goal,duration + order * stagger).OnComplete(()=> SetBackAnimTransform(startingPos,item));
     }
     public Image fish,shark,diamond,fishCounter;
     [SerializeField]
@@ -114,20 +127,30 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
                     wrong.Play();
             }
         }
-        AnimateCombo(counter);
     }
     [SerializeField]
     AudioSource wrong;
-    void AnimateCombo(int combo)
+
+    // Called once per trial by ReactionManager, for every outcome, so what is on screen
+    // is always the current multiplier. It used to be driven from inside Animate, which
+    // is not reached at all on a correct reject - so the previous trial's number stayed
+    // up, and a combo that had already been broken elsewhere could still read x4.
+    public void ShowCombo(int combo)
     {
         if(combo > 0)
         {
-            comboText.text =  comboExtention + combo;
-            comboAnimator.Play("Combo");
+            comboText.text = comboExtention + combo;
+            // The Combo clip fades the text out and back in. Restarting it from the top
+            // on every trial is also what guarantees it is never left mid-fade.
+            if(comboAnimator != null)
+            {
+                comboAnimator.enabled = true;
+                comboAnimator.Play("Combo",0,0f);
+            }
         }
-        else 
+        else
         {
-            comboText.text = "";
+            ClearCombo();
         }
     }
     void SetBackAnimTransform(Vector3 pos,GameObject go)
@@ -152,7 +175,11 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
     }
     public void ClearCombo()
     {
+        // Stop the animator first: it drives the colour and font size, so leaving it
+        // running on empty text meant the next combo could inherit a half-faded frame.
+        if(comboAnimator != null) comboAnimator.enabled = false;
         comboText.text = "";
+        comboText.ForceMeshUpdate();
     }
     void OnSettingMenuClosed()
     {
