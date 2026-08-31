@@ -29558,8 +29558,8 @@ RectTransform:
   - {fileID: 1990844380}
   m_Father: {fileID: 1462284341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0.04028436}
+  m_AnchorMax: {x: 1, y: 0.9443128}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -29934,6 +29934,7 @@ GameObject:
   - component: {fileID: 1462284339}
   - component: {fileID: 1462284338}
   - component: {fileID: 1462284342}
+  - component: {fileID: 1462284343}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -30049,6 +30050,23 @@ MonoBehaviour:
   sliderMaxValue: 50
   fillImage: {fileID: 1825495151}
   bubble: {fileID: 83077420}
+--- !u!114 &1462284343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462284337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5c9d1e4b3f24c0a8e6f1d2c3b4a596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TankDrainTest
+  run: 1
+  secondsToEmpty: 6
+  slider: {fileID: 1990844381}
+  fill: {fileID: 1825495151}
+  tankRoot: {fileID: 1990844379}
 --- !u!1 &1492425003
 GameObject:
   m_ObjectHideFlags: 0
@@ -32415,7 +32433,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0.96533334
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -33921,7 +33939,6 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 991827340}
   - component: {fileID: 1990844380}
   - component: {fileID: 1990844381}
   m_Layer: 5
@@ -34000,7 +34017,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 804
   m_WholeNumbers: 0
-  m_Value: 804
+  m_Value: 773.984
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -35093,19 +35110,3 @@ SceneRoots:
   - {fileID: 1220802835}
   - {fileID: 1798943571}
   - {fileID: 9740014}
-
---- !u!114 &991827340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990844379}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5c9d1e4b3f24c0a8e6f1d2c3b4a596, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  run: 1
-  secondsToEmpty: 6
-  fill: {fileID: 1825495151}

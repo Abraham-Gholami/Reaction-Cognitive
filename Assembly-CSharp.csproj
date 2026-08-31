@@ -92,6 +92,7 @@
     <Compile Include="Assets/Scripts/ApiUser.cs" />
     <Compile Include="Assets/Scripts/RandomButtonGenerator.cs" />
     <Compile Include="Assets/Scripts/ContentHandler.cs" />
+    <Compile Include="Assets/Scripts/TankDrainTest.cs" />
     <Compile Include="Assets/GamingCloud/Json Templates/ReportTemplate.cs" />
     <Compile Include="Assets/Scripts/SignUp/CheckBoxAnswer.cs" />
     <Compile Include="Assets/EZ Camera Shake/Scripts/CameraShaker.cs" />
