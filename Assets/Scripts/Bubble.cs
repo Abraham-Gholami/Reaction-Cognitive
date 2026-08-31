@@ -28,8 +28,30 @@ public class Bubble : MonoBehaviour
         stopped = false;
         timer = 0;
     }
+
+    // One row per presented trial, guaranteed. The row used to be a side effect of
+    // OnDisable alone, so any path where that hook did not fire - the object already
+    // inactive because a tap had burst it, a parent switched off, a coroutine killed
+    // between the two SetActive calls - dropped a trial from the export without a
+    // trace. StartTest now arms the bubble when it opens the trial and calls
+    // EnsureRecorded when it closes it, so OnDisable stays the fast path (a tap still
+    // credits the counter immediately) and this is the backstop.
+    public bool Recorded { get; private set; }
+
+    public void ArmForTrial()
+    {
+        Recorded = false;
+        ResetTimer();
+    }
+
+    public void EnsureRecorded()
+    {
+        if(Recorded) return;
+        SaveStimulusData();
+    }
     void SaveStimulusData()
     {
+        Recorded = true;
         StimulusData stimulusData = new StimulusData();
         stimulusData.answer = answer;
         stimulusData.stateData = stateData;

@@ -310,16 +310,19 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         int random = Random.Range(0,3);
         State(random);
     }
-    void BehaviourState(int state)
+    // Returns whether a stimulus was actually presented, so the caller knows whether
+    // this bubble cycle is a trial that owes the export a row.
+    bool BehaviourState(int state)
     {
-        if(currentLevel >= levelsData.levels.Length) return;
-        var size = levelsData.levels[currentLevel].states.Length;
+        if(currentLevel >= levelsData.levels.Length) return false;
+        var presented = false;
         if(!needsTutorial && stateCounter < levelsData.levels[currentLevel].states.Length)
         {
             state = translatedStateData[stateCounter];
             State(state);
             stateCounter ++;
             trialsPresented ++;
+            presented = true;
 
         }
         // The level used to be closed out right here — at the LAST trial's ONSET — so
@@ -327,6 +330,7 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         // and sometimes an empty description. Defer it until the response is recorded.
         if(stateCounter >= levelsData.levels[currentLevel].states.Length)
             levelBoundaryPending = true;
+        return presented;
     }
     bool levelBoundaryPending;
 
@@ -462,8 +466,9 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
             bubble.gameObject.SetActive(false);
 
         bubble.gameObject.SetActive(true);
+        bubble.ArmForTrial();
         // activates stimulus
-        BehaviourState(stateCounter);
+        var presented = BehaviourState(stateCounter);
         if(needsTutorial) yield return null;
 
         yield return TrialWait(window/2);
@@ -476,6 +481,10 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         // deactives bubble
 
         bubble.gameObject.SetActive(false);
+        // A tap bursts the bubble mid-trial, so OnDisable has usually written the row
+        // already; this covers every path where it did not. Exactly one row per trial
+        // that actually showed a stimulus, and none for a cycle that showed nothing.
+        if(presented) bubble.EnsureRecorded();
         // the response for this trial is now recorded, so it is safe to close the level
         AdvanceLevelIfPending();
 
