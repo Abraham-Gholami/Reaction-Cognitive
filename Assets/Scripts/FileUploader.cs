@@ -10,7 +10,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class FileUploader : GenericSingleton<FileUploader>
 {
     string appId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
-    string Url = "http://gamesdata.cognitivetests.ir/Data/apps/43921cf3-b5ca-4897-a2b9-4ac919e7af77/users/";
+    // https for the same reason as UserCreator: plain HTTP 301s to https and the POST
+    // body does not survive the redirect.
+    string Url = "https://gamesdata.cognitivetests.ir/Data/apps/43921cf3-b5ca-4897-a2b9-4ac919e7af77/users/";
     string location;
     bool hasLocation;
     [SerializeField] float registrationTimeout = 20f;
@@ -72,8 +74,11 @@ public class FileUploader : GenericSingleton<FileUploader>
             if (www.result != UnityWebRequest.Result.Success)
             {
                 onComplete?.Invoke(false);
-                ScreenDebug.Instance.Debug(www.error);
-
+                // The bare www.error hid what was happening (a 405 on a redirected POST).
+                // Carry the status code and the final URL so the next failure is readable.
+                var detail = $"Upload failed {(int)www.responseCode} {www.result}: {www.error} -> {www.uri}";
+                ScreenDebug.Instance.Debug(detail);
+                Debug.LogError(detail);
             }
             else
             {

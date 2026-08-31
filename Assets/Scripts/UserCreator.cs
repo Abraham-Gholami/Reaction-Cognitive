@@ -8,7 +8,11 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 public class UserCreator : GenericSingleton<UserCreator> {
 	
-	private const string url = "http://gamesdata.cognitivetests.ir/Users";
+	// https, not http: the server answers plain HTTP with a 301 to the https URL, and
+	// UnityWebRequest downgrades a redirected POST to a GET and drops the body - so every
+	// registration arrived as a GET and came back 405, leaving isRegistered false and
+	// aborting every upload that waits on it.
+	private const string url = "https://gamesdata.cognitivetests.ir/Users";
 	string appId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
 	public string userid;
 	public bool isRegistered;
