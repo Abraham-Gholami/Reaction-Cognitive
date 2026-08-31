@@ -127,6 +127,7 @@
     <Compile Include="Assets/Scripts/ButtonSFX.cs" />
     <Compile Include="Assets/GamingCloud/Library/MultiPlayer/models/ChangeTurnMode.cs" />
     <Compile Include="Assets/GamingCloud/Library/MultiPlayer/MultiPlayerErrors.cs" />
+    <Compile Include="Assets/Scripts/TutorialSkipButton.cs" />
     <Compile Include="Assets/Scripts/SafeArea.cs" />
     <Compile Include="Assets/Scripts/PostData.cs" />
     <Compile Include="Assets/GamingCloud/Api/liveOps.cs" />

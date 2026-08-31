@@ -124,8 +124,16 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
             visualTimer = SettingsManager.Instance.visualTimer;
             audioTimer = SettingsManager.Instance.audioTimer;
         }
-        Invoke("RandomizeButtons",2f);
+        if(firstTutorialDelay > 0f)
+            Invoke("RandomizeButtons",firstTutorialDelay);
+        else
+            RandomizeButtons();
     }
+    // Both of these were hard-coded: 2s here and 3s in GetTutorial, so the first
+    // voice-over panel sat on a blank screen for five seconds and every later level's
+    // panel for three. Serialized and zero by default; raise them if a pause is wanted.
+    [SerializeField] float firstTutorialDelay = 0f;
+    [SerializeField] float tutorialPanelDelay = 0f;
     bool gameIsPlaying , useTank;
     public bool GameIsPlaying => gameIsPlaying;
     void RandomizeButtons()
@@ -172,7 +180,25 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     Sprite defualtBubbleSprite;
     public void GetTutorial(bool wait = false)
     {
-        Invoke("SetUpTutorial",3f);
+        if(tutorialPanelDelay > 0f)
+            Invoke("SetUpTutorial",tutorialPanelDelay);
+        else
+            SetUpTutorial();
+    }
+
+    // True while any of the three tutorial panels is on screen. Read by the
+    // editor-only TutorialSkipButton, which cannot see the panel from where it lives.
+    public bool TutorialPanelShowing => tutorialPanel != null && tutorialPanel.activeInHierarchy;
+
+    // Hooked to the editor-only skip button on the tutorial panel. OnStartMission
+    // refuses to advance while the voice-over is still playing - that is what stops a
+    // child skipping ahead by tapping - so silence it first and then take the same path
+    // a real tap takes, second tutorial and all.
+    public void SkipTutorial()
+    {
+        if(!TutorialPanelShowing) return;
+        tutorialAudioSource.Stop();
+        OnStartMission();
     }
     [SerializeField] AudioSource starButtonSFX;
     void SetUpMiniTutorial()
