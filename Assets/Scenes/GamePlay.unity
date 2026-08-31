@@ -28392,8 +28392,10 @@ MonoBehaviour:
   dontDestroy: 0
   allData: 
   panel: {fileID: 2141570087}
+  wait: {fileID: 1343973999}
   completed: {fileID: 1345583060}
   failed: {fileID: 1444216585}
+  endPanel: {fileID: 1745706293}
 --- !u!4 &1220802835
 Transform:
   m_ObjectHideFlags: 0

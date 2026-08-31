@@ -81,7 +81,22 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             response = "omission error";
         return response;
     }
-    [SerializeField] GameObject panel,completed,failed;
+    // "wait" was never referenced, so panel.SetActive(true) opened the upload panel
+    // showing nothing but its backdrop - there was no "sending" message at all. And
+    // nothing ever switched the three states off again, so once a result appeared it
+    // stayed layered over whatever came before it.
+    [SerializeField] GameObject panel,wait,completed,failed;
+    [SerializeField] GameObject endPanel;
+
+    // One visible state at a time, and the end panel closed behind it.
+    void ShowUpload(GameObject state)
+    {
+        if(endPanel != null) endPanel.SetActive(false);
+        if(panel != null) panel.SetActive(true);
+        if(wait != null) wait.SetActive(state == wait);
+        if(completed != null) completed.SetActive(state == completed);
+        if(failed != null) failed.SetActive(state == failed);
+    }
     public async void SaveToFile ()
     {
         var content = allData;
@@ -116,11 +131,10 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             Debug.LogError("Export write failed: " + e.Message);
             ScreenDebug.Instance?.Debug("Export write failed: " + e.Message);
             SessionGuard.AllowQuit = true;
-            panel.SetActive(true);
-            failed.SetActive(true);
+            ShowUpload(failed);
             return;
         }
-        panel.SetActive(true);
+        ShowUpload(wait);
         ReportRowCount();
         Action<bool> onComplete = new Action<bool>
         (
@@ -162,10 +176,10 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             Debug.LogError("Gyro write failed: " + e.Message);
             ScreenDebug.Instance?.Debug("Gyro write failed: " + e.Message);
             SessionGuard.AllowQuit = true;
-            failed.SetActive(true);
+            ShowUpload(failed);
             return;
         }
-        panel.SetActive(true);
+        ShowUpload(wait);
         Action<bool> onComplete = new Action<bool>
         (
             (value) => ShowResult(value)
@@ -181,11 +195,7 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
     {
         // The test is over either way, so the operator is allowed to leave the app now.
         SessionGuard.AllowQuit = true;
-        if(result)
-            completed.SetActive(true);
-        else
-            failed.SetActive(true);
-
+        ShowUpload(result ? completed : failed);
     }
     void MainDataResult(bool result)
     {
@@ -196,7 +206,7 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
             // Upload failed: the run is still on disk (export_autosave.txt /
             // gyro_autosave.txt in persistentDataPath) and can be recovered by hand.
             SessionGuard.AllowQuit = true;
-            failed.SetActive(true);
+            ShowUpload(failed);
         }
 
     }

@@ -120,7 +120,10 @@ public class ReactionManager : GenericSingleton<ReactionManager>
 
     public void RecevieStimulusFocuesdData(StimulusData stimulus)
     {
-        if(serverLevelData.stimulusData != null)
+        // Recreate rather than skip. This guard used to drop the whole row - CSV
+        // included - if the list was ever missing, which is a silent lost trial.
+        if(serverLevelData.stimulusData == null)
+            serverLevelData.stimulusData = new List<StimulusData>();
         {
             stimulus.tryNumber = RandomButtonGenerator.Instance.stateCounter;
             // The audio was taken by a call at some point after this trial opened, so
