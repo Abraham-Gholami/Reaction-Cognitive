@@ -102,6 +102,10 @@ public class ProgressBar : MonoBehaviour
     {
         slider.gameObject.SetActive(true);
     }
+    public void Deactivate()
+    {
+        slider.gameObject.SetActive(false);
+    }
     private void OnDestroy() 
     {
         // Never resurrect the settings singleton during teardown just to unsubscribe.

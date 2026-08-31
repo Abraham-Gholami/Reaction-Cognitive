@@ -246,10 +246,13 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
         // bar running through levels that declare useTank: 0.
         useTank = level.useTank;
         showed2ndTut = false;
+        // The tank belongs to the levels that ask for it. It used to be switched on
+        // and never switched off, so it sat on screen - frozen, then empty - for every
+        // level after the one that used it.
         if(level.useTank)
-        {
             ReactionManager.Instance.progressBar.Activate();
-        }
+        else
+            ReactionManager.Instance.progressBar.Deactivate();
         
         
         if(!level.useTutorial || !waitForTutorial)
@@ -345,13 +348,17 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
 
     // The oxygen bar was hard-coded to 804 seconds while the shipped asset totals far
     // less, so it could never empty in step with the test. Derive it from the data.
-    public float TotalTrialSeconds()
+    //
+    // Only the levels that declare useTank count: the bar is shown and animated for
+    // those levels alone, so sizing it to the whole session would leave it barely
+    // touched by the time the tank disappears again.
+    public float TankSeconds()
     {
         var total = 0f;
         if(levelsData == null || levelsData.levels == null) return 1f;
         foreach(var lvl in levelsData.levels)
         {
-            if(lvl.states == null) continue;
+            if(!lvl.useTank || lvl.states == null) continue;
             foreach(var s in lvl.states)
                 total += (s.FA || s.SA) ? lvl.otherTime : lvl.timeBetweenStimulus;
         }

@@ -26,7 +26,7 @@ public class ReactionManager : GenericSingleton<ReactionManager>
         serverLevelData.stimulusData = new List<StimulusData>();
         serverLevelData.stimiulusGeneralData = new List<string>();
         if(progressBar)
-            progressBar.SetMaxFill(RandomButtonGenerator.Instance.TotalTrialSeconds());
+            progressBar.SetMaxFill(RandomButtonGenerator.Instance.TankSeconds());
         UpdateText();
         Input.gyro.enabled = true;
 
