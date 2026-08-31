@@ -64,11 +64,14 @@ public class TutorialSkipButton : MonoBehaviour
     }
 #endif
 
+    // A disabled Graphic is removed from the raycast registry, so this hides the button
+    // and stops it eating taps in one go. Button.interactable is deliberately left
+    // alone - it was a second gate on the same thing and only added a way to end up
+    // visible but dead.
     void SetVisible(bool visible)
     {
         Cache();
         if (icon != null) icon.enabled = visible;
-        if (button != null) button.interactable = visible;
     }
 
     void Layout()
@@ -87,6 +90,10 @@ public class TutorialSkipButton : MonoBehaviour
             foreach (var t in GetComponentsInChildren<Transform>(true))
                 t.gameObject.layer = layer;
         }
+
+        // Last sibling of the canvas, so it is both drawn over the tutorial panel and
+        // first in the raycast order - uGUI hit-tests in draw order.
+        rt.SetAsLastSibling();
 
         // bottom-right corner, matching the video skip button
         rt.anchorMin = rt.anchorMax = rt.pivot = new Vector2(1f, 0f);

@@ -197,6 +197,11 @@ public class RandomButtonGenerator : GenericSingleton<RandomButtonGenerator>
     public void SkipTutorial()
     {
         if(!TutorialPanelShowing) return;
+        // One press has to clear the whole tutorial, not just its first page. Level 1
+        // sets hasSecondTutorial, so OnStartMission answers the first press by opening
+        // the second panel - another scroll with another voice-over, which looks exactly
+        // like the button doing nothing. Mark it shown so we take the exit branch.
+        showed2ndTut = true;
         tutorialAudioSource.Stop();
         OnStartMission();
     }
