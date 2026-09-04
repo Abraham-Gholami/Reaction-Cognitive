@@ -85,7 +85,7 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
         item.transform.DOKill();
         item.transform.position = startingPos;
         item.SetActive(true);
-        item.transform.DOMove(goal,duration + order * stagger).OnComplete(()=> SetBackAnimTransform(startingPos,item));
+        item.transform.DOMove(goal,duration + order * stagger).OnComplete(()=> OnFishLanded(startingPos,item));
     }
     public Image fish,shark,diamond,fishCounter;
     [SerializeField]
@@ -162,6 +162,15 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
             comboAnimator.enabled = true;
             comboAnimator.Play("Combo",0,0f);
         }
+    }
+    // A fish reaching the counter is worth one point. AnimateFish releases exactly the
+    // combo's worth of fish and the sweep at the top of the next call DOCompletes any
+    // stragglers - which runs this - so every released fish is credited exactly once.
+    void OnFishLanded(Vector3 pos,GameObject go)
+    {
+        go.SetActive(false);
+        go.transform.position = pos;
+        ReactionManager.Instance.CreditFish();
     }
     void SetBackAnimTransform(Vector3 pos,GameObject go)
     {

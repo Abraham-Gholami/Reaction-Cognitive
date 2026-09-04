@@ -203,8 +203,12 @@ public class ReactionManager : GenericSingleton<ReactionManager>
                 diamondCounterText.text = diamondCounter.ToString();
                 if(SettingsManager.Instance.diamondSFX) diamondSFX.Play();
            }
-           if(!SettingsManager.Instance.useCombo)  fishCounter += 1;
-           else fishCounter += posCounter * 1;
+           // The whole combo used to be added here, so on an x5 the counter jumped by
+           // five the moment the FIRST fish arrived and the other four landed against a
+           // number that had already finished moving. Each fish now credits itself as it
+           // reaches the counter, so the display ticks up in step with the animation.
+           if(!SettingsManager.Instance.useCombo)
+               CreditFish();   // no fish fly in this mode, so credit it straight away
            UIAnimationController.Instance.Animate(true,fishHolder.position,posCounter);
            if(stimulus.reactionTimer < 0.6 && SettingsManager.Instance.useDiamondPrize)
            {
@@ -231,6 +235,12 @@ public class ReactionManager : GenericSingleton<ReactionManager>
        // Every outcome, including the correct reject that matches none of the branches
        // above: the number on screen is posCounter, or nothing when the combo is broken.
        UIAnimationController.Instance.ShowCombo(posCounter);
+    }
+    // Called by UIAnimationController as each fish completes its flight.
+    public void CreditFish(int amount = 1)
+    {
+        fishCounter += amount;
+        UpdateText();
     }
     public void UpdateText()
     {
