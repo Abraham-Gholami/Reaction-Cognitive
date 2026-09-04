@@ -150,6 +150,7 @@
     <Compile Include="Assets/GamingCloud/Json Templates/ForgotPasswordTemplate.cs" />
     <Compile Include="Assets/EZ Camera Shake/Scripts/CameraShakeInstance.cs" />
     <Compile Include="Assets/Scripts/AccelerometerUtil.cs" />
+    <Compile Include="Assets/Scripts/Backend.cs" />
     <Compile Include="Assets/DOTween/Modules/DOTweenModuleSprite.cs" />
     <Compile Include="Assets/GamingCloud/Library/UnityMainThreadDispatcher.cs" />
     <Compile Include="Assets/Scripts/DataSender.cs" />

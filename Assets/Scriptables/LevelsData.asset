@@ -711,7 +711,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -929,7 +929,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1147,7 +1147,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1365,7 +1365,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1583,7 +1583,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -1801,7 +1801,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -2019,7 +2019,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -2077,7 +2077,7 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1
   - visualTimer: 0.2
     audioTimer: 0.6
     timeBetweenStimulus: 2
@@ -2135,4 +2135,4 @@ MonoBehaviour:
     tutorialImage2: {fileID: 0}
     miniTutorialImage: {fileID: 0}
     bubbleImage: {fileID: 0}
-    useTank: 0
+    useTank: 1

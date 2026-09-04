@@ -87,6 +87,10 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
     // stayed layered over whatever came before it.
     [SerializeField] GameObject panel,wait,completed,failed;
     [SerializeField] GameObject endPanel;
+    // The rotating ring of bubbles. It was the FIRST child of the upload panel, so the
+    // wait card was drawn straight over it and the middle of that card looked empty. It
+    // is the last child now, and belongs to the waiting state only.
+    [SerializeField] GameObject spinner;
 
     // One visible state at a time, and the end panel closed behind it.
     void ShowUpload(GameObject state)
@@ -96,6 +100,7 @@ public class CSVBuilder : GenericSingleton<CSVBuilder>
         if(wait != null) wait.SetActive(state == wait);
         if(completed != null) completed.SetActive(state == completed);
         if(failed != null) failed.SetActive(state == failed);
+        if(spinner != null) spinner.SetActive(state == wait);
     }
     public async void SaveToFile ()
     {

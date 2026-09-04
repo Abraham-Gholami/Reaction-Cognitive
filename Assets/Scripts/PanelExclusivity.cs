@@ -26,6 +26,7 @@ public class PanelExclusivity : MonoBehaviour
 
     readonly List<GameObject> panels = new List<GameObject>();
     readonly List<CanvasGroup> groups = new List<CanvasGroup>();
+    readonly List<ParticleSystemRenderer> particles = new List<ParticleSystemRenderer>();
     bool? lastState;
 
     void Awake()
@@ -52,6 +53,20 @@ public class PanelExclusivity : MonoBehaviour
             if (group == null) group = child.gameObject.AddComponent<CanvasGroup>();
             groups.Add(group);
         }
+
+        // A CanvasGroup only fades Graphics, and a ParticleSystemRenderer is not one -
+        // so the background bubbles (a Particles root outside the canvas entirely) and
+        // the oxygen tank's own emitter kept drawing over a panel that had hidden
+        // everything else. Collect them scene-wide, inactive ones included, since the
+        // tank starts switched off.
+        var found = FindObjectsByType<ParticleSystemRenderer>(
+            FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var renderer in found)
+        {
+            // Anything a panel brings with it stays visible.
+            if (renderer.transform.IsChildOf(panelsRoot)) continue;
+            particles.Add(renderer);
+        }
     }
 
     // LateUpdate, so a panel opened during this frame's Update is already accounted for
@@ -74,6 +89,14 @@ public class PanelExclusivity : MonoBehaviour
             group.alpha = panelUp ? 0f : 1f;
             group.interactable = !panelUp;
             group.blocksRaycasts = !panelUp;
+        }
+
+        // Renderer rather than the system or the GameObject: the simulation keeps
+        // running, so the bubbles are simply back where they drifted to instead of
+        // restarting in a burst the moment the panel closes.
+        for (var i = 0; i < particles.Count; i++)
+        {
+            if (particles[i] != null) particles[i].enabled = !panelUp;
         }
     }
 }

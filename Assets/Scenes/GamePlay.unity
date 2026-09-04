@@ -28396,6 +28396,7 @@ MonoBehaviour:
   completed: {fileID: 1345583060}
   failed: {fileID: 1444216585}
   endPanel: {fileID: 1745706293}
+  spinner: {fileID: 350712494}
 --- !u!4 &1220802835
 Transform:
   m_ObjectHideFlags: 0
@@ -33958,7 +33959,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 251.56, y: 81.5}
+  m_AnchoredPosition: {x: 251.56, y: 155}
   m_SizeDelta: {x: 936.91, y: 262.9}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1990844381
@@ -34958,10 +34959,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 350712495}
   - {fileID: 1343974000}
   - {fileID: 1444216586}
   - {fileID: 1345583061}
+  - {fileID: 350712495}
   m_Father: {fileID: 1964830483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
