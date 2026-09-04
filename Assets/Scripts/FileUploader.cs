@@ -9,10 +9,7 @@ using UnityEngine.Networking;
 using System.Runtime.Serialization.Formatters.Binary;
 public class FileUploader : GenericSingleton<FileUploader>
 {
-    string appId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
-    // https for the same reason as UserCreator: plain HTTP 301s to https and the POST
-    // body does not survive the redirect.
-    string Url = "https://gamesdata.cognitivetests.ir/Data/apps/43921cf3-b5ca-4897-a2b9-4ac919e7af77/users/";
+    string appId = Backend.AppId;
     string location;
     bool hasLocation;
     [SerializeField] float registrationTimeout = 20f;
@@ -51,7 +48,7 @@ public class FileUploader : GenericSingleton<FileUploader>
         var jsonObject  = JsonUtility.ToJson(data);
         var jsonData = System.Text.Encoding.UTF8.GetBytes(file);
         ScreenDebug.Instance.Debug("Upload TRY");
-        yield return Upload(Url + UserCreator.Instance.userid,jsonData,fileName,onComplete,file,data);
+        yield return Upload(Backend.DataUrl(UserCreator.Instance.userid),jsonData,fileName,onComplete,file,data);
     }
     public  IEnumerator Upload(string url, byte[] file,string fileName,Action<bool> onComplete,string filetext,Data data)
     {
@@ -67,28 +64,47 @@ public class FileUploader : GenericSingleton<FileUploader>
             form.AddField("rawdata",filetext);
             form.AddField("location",data.location + " " + data.fileName);
             //formData.Add(myFormFile);
-            UnityWebRequest www = UnityWebRequest.Post(url, form);
-            www.timeout = requestTimeout;   // a hung TCP connection must not stall forever
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
+            var target = url;
+            for (var hop = 0; hop <= Backend.MaxRedirects; hop++)
             {
-                onComplete?.Invoke(false);
-                // The bare www.error hid what was happening (a 405 on a redirected POST).
-                // Carry the status code and the final URL so the next failure is readable.
-                var detail = $"Upload failed {(int)www.responseCode} {www.result}: {www.error} -> {www.uri}";
-                ScreenDebug.Instance.Debug(detail);
-                Debug.LogError(detail);
-            }
-            else
-            {
-                ScreenDebug.Instance.Debug("Done!!!!!");
-                onComplete?.Invoke(true);
+                UnityWebRequest www = UnityWebRequest.Post(target, form);
+                // Unity's own redirect handling re-sends a POST as a bodyless GET, which
+                // this route answers 405 - the file never leaves the device. Handle the
+                // hop ourselves so the body survives, whichever scheme the server wants.
+                www.redirectLimit = 0;
+                www.timeout = requestTimeout;   // a hung TCP connection must not stall forever
+                yield return www.SendWebRequest();
+
+                var redirect = Backend.FollowRedirect(www, target);
+                if (redirect != null)
+                {
+                    ScreenDebug.Instance.Debug("Upload redirected -> " + redirect);
+                    target = redirect;
+                    www.Dispose();
+                    continue;
+                }
+
+                if (www.result != UnityWebRequest.Result.Success)
+                {
+                    // The bare www.error hid what was happening (a 405 on a redirected
+                    // POST). Carry the status code and the final URL.
+                    var detail = $"Upload failed {(int)www.responseCode} {www.result}: {www.error} -> {target}";
+                    ScreenDebug.Instance.Debug(detail);
+                    Debug.LogError(detail);
+                    www.Dispose();
+                    onComplete?.Invoke(false);
+                }
+                else
+                {
+                    ScreenDebug.Instance.Debug("Done!!!!!");
+                    www.Dispose();
+                    onComplete?.Invoke(true);
+                }
+                yield break;
             }
 
-            //Debug.Log(www.downloadHandler.text);
-
-            
+            ScreenDebug.Instance.Debug("Upload gave up after too many redirects");
+            onComplete?.Invoke(false);
     }
     
     public void UploadFile(string file,string fileName,Action<bool> onComplete = null,string _location = null)

@@ -12,8 +12,10 @@ public class UserCreator : GenericSingleton<UserCreator> {
 	// UnityWebRequest downgrades a redirected POST to a GET and drops the body - so every
 	// registration arrived as a GET and came back 405, leaving isRegistered false and
 	// aborting every upload that waits on it.
-	private const string url = "https://gamesdata.cognitivetests.ir/Users";
-	string appId = "43921cf3-b5ca-4897-a2b9-4ac919e7af77";
+	// Address lives in Backend so scheme/host is a single edit for both endpoints.
+	static string url { get { return Backend.UsersUrl; } }
+	string appId = Backend.AppId;
+	[SerializeField] int requestTimeout = 15;
 	public string userid;
 	public bool isRegistered;
 	ApiUser myobj;
@@ -37,22 +39,47 @@ public class UserCreator : GenericSingleton<UserCreator> {
 	{
 		ScreenDebug.Instance.Debug("ApiUser Created");
 
-		var request = new UnityWebRequest (url, "POST");
 		byte[] bodyRaw = Encoding.UTF8.GetBytes (bodyJsonString);
-		request.uploadHandler = (UploadHandler)new UploadHandlerRaw (bodyRaw);
-		request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer ();
-		request.SetRequestHeader ("Content-Type", "text/json");
-		yield return request.SendWebRequest();
-		ScreenDebug.Instance?.Debug ("Status Code: " + request.responseCode);
-		if (request.result == UnityWebRequest.Result.Success)
-        {
-            isRegistered = true;
+		var target = url;
 
-        }
-		else 
+		for (var hop = 0; hop <= Backend.MaxRedirects; hop++)
 		{
-			ScreenDebug.Instance?.Debug ("Error : " + request.error);
+			var request = new UnityWebRequest (target, "POST");
+			request.uploadHandler = (UploadHandler)new UploadHandlerRaw (bodyRaw);
+			request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer ();
+			request.SetRequestHeader ("Content-Type", "text/json");
+			// Do not let Unity follow the redirect itself: it re-sends a POST as a
+			// bodyless GET, which this route answers with 405.
+			request.redirectLimit = 0;
+			request.timeout = requestTimeout;
+			yield return request.SendWebRequest();
+
+			var redirect = Backend.FollowRedirect(request, target);
+			if (redirect != null)
+			{
+				ScreenDebug.Instance?.Debug ("Register redirected -> " + redirect);
+				target = redirect;
+				request.Dispose();
+				continue;
+			}
+
+			ScreenDebug.Instance?.Debug ("Status Code: " + request.responseCode);
+			if (request.result == UnityWebRequest.Result.Success)
+			{
+				isRegistered = true;
+			}
+			else
+			{
+				var detail = "Register failed " + request.responseCode + " " + request.result +
+				             ": " + request.error + " -> " + target;
+				ScreenDebug.Instance?.Debug (detail);
+				Debug.LogError(detail);
+			}
+			request.Dispose();
+			yield break;
 		}
+
+		ScreenDebug.Instance?.Debug ("Register gave up after too many redirects");
 	}
 	IEnumerator  PostWithForm(ApiUser user ,string url, string bodyJsonString)
     {
