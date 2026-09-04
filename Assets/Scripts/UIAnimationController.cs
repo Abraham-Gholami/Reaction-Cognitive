@@ -135,22 +135,32 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
     // is always the current multiplier. It used to be driven from inside Animate, which
     // is not reached at all on a correct reject - so the previous trial's number stayed
     // up, and a combo that had already been broken elsewhere could still read x4.
+    int shownCombo = -1;
     public void ShowCombo(int combo)
     {
-        if(combo > 0)
+        // With combos switched off the multiplier is not applied: AnimateState scores a
+        // flat +1 and Animate releases no fish. posCounter still counts up though, so
+        // without this the text advertised an xN that nothing honoured.
+        if(!SettingsManager.Instance.useCombo) combo = 0;
+
+        if(combo <= 0)
         {
-            comboText.text = comboExtention + combo;
-            // The Combo clip fades the text out and back in. Restarting it from the top
-            // on every trial is also what guarantees it is never left mid-fade.
-            if(comboAnimator != null)
-            {
-                comboAnimator.enabled = true;
-                comboAnimator.Play("Combo",0,0f);
-            }
-        }
-        else
-        {
+            shownCombo = 0;
             ClearCombo();
+            return;
+        }
+
+        var changed = combo != shownCombo;
+        shownCombo = combo;
+        comboText.text = comboExtention + combo;
+
+        // Only pop when the number actually moved. A correct reject neither advances nor
+        // breaks the combo, so replaying the clip there made an unchanged multiplier
+        // look like it had just gone up.
+        if(changed && comboAnimator != null)
+        {
+            comboAnimator.enabled = true;
+            comboAnimator.Play("Combo",0,0f);
         }
     }
     void SetBackAnimTransform(Vector3 pos,GameObject go)
@@ -175,6 +185,7 @@ public class UIAnimationController : GenericSingleton<UIAnimationController>
     }
     public void ClearCombo()
     {
+        shownCombo = 0;
         // Stop the animator first: it drives the colour and font size, so leaving it
         // running on empty text meant the next combo could inherit a half-faded frame.
         if(comboAnimator != null) comboAnimator.enabled = false;
